@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var downloadGtfsFile =	require('../util/downloadGtfsFile');
+var tokenize =			require('../util/tokenize');
 
 
 
@@ -12,6 +13,7 @@ console.log('- stops.txt -> data/stops.nedb');
 downloadGtfsFile('https://raw.githubusercontent.com/derhuerst/vbb-gtfs/master/stops.txt', 'stops.nedb', function (data) {
 	return {
 		_id:	parseInt(data.stop_id),
+		keys:	tokenize(data.stop_name),
 		name:	data.stop_name
 	};
 });
