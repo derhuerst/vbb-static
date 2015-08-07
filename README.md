@@ -10,6 +10,8 @@
 npm install vbb-static
 ```
 
+This will also download [the zipped GTFS data](http://www.vbb.de/de/datei/GTFS_VBB_Jun2015_Dez2015.zip), unzip it, convert it and store it locally in [NeDB](https://github.com/louischatriot/nedb) database files.
+
 
 
 ## Documentation

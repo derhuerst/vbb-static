@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+var downloadGtfsFile =	require('../util/downloadGtfsFile');
+
+
+
+
+
+console.log('Downloading GTFS files from github.com/derhuerst/vbb-gtfs:');
+
+console.log('- stops.txt -> data/stops.nedb');
+downloadGtfsFile('https://raw.githubusercontent.com/derhuerst/vbb-gtfs/master/stops.txt', 'stops.nedb', function (data) {
+	return {
+		_id:	parseInt(data.stop_id),
+		name:	data.stop_name
+	};
+});
