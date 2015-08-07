@@ -1,0 +1,48 @@
+{
+	"name": "vbb-static",
+	"description": "A JavaScript API for the Berlin & Brandenburg public transport service (VBB) GTFS data.",
+	"version": "0.1.0",
+	"main": "./src/index",
+	"keywords": [
+		"vbb",
+		"static",
+		"berlin",
+		"brandenburg",
+		"public transport",
+		"gtfs",
+		"open data",
+		"json",
+		"fahrinfo",
+		"coffeescript",
+		"javascript"
+	],
+	"author": {
+		"name": "Jannis R",
+		"email": "mail@jannisr.de",
+		"url": "http://jannisr.de"
+	},
+	"homepage": "https://github.com/derhuerst/vbb-static",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/derhuerst/vbb-static.git"
+	},
+	"bugs": {
+		"url": "https://github.com/derhuerst/vbb-static/issues"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"coffee-script":		"^1.9.3",
+		"request":				"^2.60.0",
+		"csv-parse":			"^0.1.4",
+		"nedb":					"^1.1.2",
+		"q":					"^1.4.1"
+	},
+	"directories": {
+		"scripts":	"./scripts",
+		"util":		"./util",
+		"lib":		"./src"
+	},
+	"scripts": {
+		"install":	"bin/download"
+	}
+}
