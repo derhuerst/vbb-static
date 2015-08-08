@@ -2,6 +2,10 @@
 
 *vbb-static* is a **JavaScript API for the static transport information of the [Berlin Brandenburg public transport service (VBB)](http://www.vbb.de/)**, pulled from [GTFS](https://developers.google.com/transit/gtfs/) data.
 
+[![npm version](https://img.shields.io/npm/v/vbb-static.svg)](https://www.npmjs.com/package/vbb-static)
+[![dependency status](https://img.shields.io/david/derhuerst/vbb-static.svg)](https://david-dm.org/derhuerst/vbb-static)
+[![dev dependency status](https://img.shields.io/david/dev/derhuerst/vbb-static.svg)](https://david-dm.org/derhuerst/vbb-static#info=devDependencies)
+
 
 
 ## Installing
