@@ -17,3 +17,25 @@ downloadGtfsFile('https://raw.githubusercontent.com/derhuerst/vbb-gtfs/master/st
 		longitude:	data.stop_lon
 	};
 });
+
+console.log('- routes.txt -> data/routes.nedb');
+types = {  // @vbb: wtf?
+	'100':	'regional',
+	'102':	'regional',
+	'109':	'suburban',
+	'400':	'subway',
+	'700':	'bus',
+	'900':	'bus',
+	'1000':	'ferry'
+};
+downloadGtfsFile('https://raw.githubusercontent.com/derhuerst/vbb-gtfs/master/routes.txt', 'routes.nedb', function (data) {
+	if (!data.route_short_name) {
+		console.log('skipping route "', data.route_long_name, '"');
+		return null;
+	}
+	return {
+		_id:	parseInt(data.route_id),
+		name:	data.route_short_name,
+		type:	types[data.route_type] || 'unknown'
+	};
+});
