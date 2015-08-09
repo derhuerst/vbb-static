@@ -9,9 +9,8 @@
 			"folder_exclude_patterns":
 			[
 				"data",
-				"bin",
+				"install",
 				"src",
-				"util",
 				"node_modules"
 			],
 			"name": "vbb-rest",
@@ -22,12 +21,8 @@
 			"path": "src"
 		},
 		{
-			"name": "util",
-			"path": "util"
-		},
-		{
-			"name": "bin",
-			"path": "bin"
+			"name": "install",
+			"path": "install"
 		},
 		{
 			"name": "data",

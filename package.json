@@ -38,11 +38,9 @@
 		"q":					"^1.4.1"
 	},
 	"directories": {
-		"scripts":	"./scripts",
-		"util":		"./util",
-		"lib":		"./src"
+		"lib":	"./src"
 	},
 	"scripts": {
-		"install":	"bin/download"
+		"install":	"install/index"
 	}
 }

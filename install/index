@@ -1,0 +1,116 @@
+#!/usr/bin/env node
+
+var Orchestrator =	require('orchestrator');
+
+var download =		require('../install/download');
+var util =			require('../install/util');
+var save =			require('../install/save');
+
+
+
+
+
+console.info('Pulling GTFS files from github.com/derhuerst/vbb-gtfs:');
+var orchestrator = new Orchestrator();
+var stations = {}, agencies = {}, routes = {}, calendar = {};
+
+
+
+orchestrator.add('stations', function (cb) {
+	download('stops.txt', function (data) {
+
+		stations[data.stop_id] = {
+			name:		data.stop_name,
+			latitude:	data.stop_lat,
+			longitude:	data.stop_lon,
+		};
+
+	})
+	.then(function () {
+		return save('stations.json', stations);
+	})
+	.then(function () {
+		console.info('- stops.txt -> stations.json');
+	})
+	.then(cb)
+	.catch(cb);
+});
+
+
+
+orchestrator.add('agencies', function (cb) {
+	download('agency.txt', function (data) {
+
+		agencies[util.parseAgency(data.agency_id)] = {
+			name:	data.agency_name,
+			url:	data.agency_url,
+			phone:	data.agency_phone
+		};
+
+	})
+	.then(function () {
+		return save('agencies.json', agencies);
+	})
+	.then(function () {
+		console.info('- agency.txt -> agencies.json');
+	})
+	.then(cb)
+	.catch(cb);
+});
+
+
+
+orchestrator.add('routes', function (cb) {
+	download('routes.txt', function (data) {
+
+		if (!data.route_short_name) return;
+		routes[data.route_short_name] = {
+			agency:	util.parseAgency(data.agency_id),
+			type:	util.parseRouteType(data.route_type)
+		};
+
+	})
+	.then(function () {
+		return save('routes.json', routes);
+	})
+	.then(function () {
+		console.info('- routes.txt -> routes.json');
+	})
+	.then(cb)
+	.catch(cb);
+});
+
+
+
+orchestrator.add('calendar', function (cb) {
+	download('calendar_dates.txt', function (data) {
+
+		if (!calendar[data.service_id])
+			calendar[data.service_id] = {
+				availableOn:	[],
+				unavailableOn:	[]
+			};
+
+		if (!(parseInt(data.exception_type) - 1))
+			var day = calendar[data.service_id].availableOn;
+		else
+			var day = calendar[data.service_id].unavailableOn;
+
+		day.push(util.stringifyDate(util.parseDate(data.date)));
+
+	})
+	.then(function () {
+		return save('calendar.json', calendar);
+	})
+	.then(function () {
+		console.info('- calendar_dates.txt -> calendar.json');
+	})
+	.then(cb)
+	.catch(cb);
+});
+
+
+
+
+
+orchestrator.start('stations', 'agencies', 'routes', 'calendar');
