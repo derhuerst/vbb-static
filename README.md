@@ -18,9 +18,72 @@ npm install vbb-static
 
 
 
-## Documentation
+## Usage
 
-coming soon!
+To get all three datasets, just `require('vbb-static')`.
+
+More datasets are comings soon!
+
+
+### `stations` dataset
+
+`require('vbb-static/stations')` gives you:
+
+```javascript
+{
+	'5100071': {
+		name: 'Zbaszynek',
+		latitude: '52.2425040',
+		longitude: '15.8180870'
+	},
+	// …
+	'9835850': {
+		name: 'Senftenberg, Puschkinstr.',
+		latitude: '51.5249170',
+		longitude: '14.0051770'
+	}
+}
+```
+
+
+### `agencies` dataset
+
+`require('vbb-static/agencies')` gives you:
+
+```javascript
+{
+	VBB: {
+		name: 'Verkehrsverbund Brandenburg-Berlin',
+		url: 'http://www.vbb.de',
+		phone: ''
+	},
+	// …
+	WS: {
+		name: 'Woltersdorfer Straßenbahn GmbH',
+		url: 'http://www.woltersdorfer-strassenbahn.com',
+		phone: '03362 881230'
+	}
+}
+```
+
+
+### `routes` dataset
+
+`require('vbb-static/routes')` gives you:
+
+```javascript
+{
+	'1': {
+		agency: 'FFT',
+		type: 'bus'
+	},
+	// …
+	RB51: {
+		agency: 'ODEN',
+		type: 'regional'
+	}
+}
+```
 
 
 
