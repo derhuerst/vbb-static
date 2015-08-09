@@ -1,6 +1,6 @@
 # vbb-static
 
-*vbb-static* is a **JavaScript API for the static transport information of the [Berlin Brandenburg public transport service (VBB)](http://www.vbb.de/)**, pulled from [GTFS](https://developers.google.com/transit/gtfs/) data.
+*vbb-static* is a **collection of JSON datasets the [Berlin Brandenburg public transport service (VBB)](http://www.vbb.de/)**, taken from [open](https://github.com/derhuerst/vbb-gtfs) [GTFS](https://developers.google.com/transit/gtfs/) data.
 
 [![npm version](https://img.shields.io/npm/v/vbb-static.svg)](https://www.npmjs.com/package/vbb-static)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-static.svg)](https://david-dm.org/derhuerst/vbb-static)
@@ -14,7 +14,7 @@
 npm install vbb-static
 ```
 
-This will also download [the zipped GTFS data](http://www.vbb.de/de/datei/GTFS_VBB_Jun2015_Dez2015.zip), unzip it, convert it and store it locally in [NeDB](https://github.com/louischatriot/nedb) database files.
+*vbb-static* will download selected [GTFS](https://developers.google.com/transit/gtfs/) files from [derhuerst/vbb-gtfs](https://github.com/derhuerst/vbb-gtfs), process them and store it them locally in JSON files.
 
 
 
