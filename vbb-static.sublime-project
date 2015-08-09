@@ -13,7 +13,7 @@
 				"src",
 				"node_modules"
 			],
-			"name": "vbb-rest",
+			"name": "vbb-static",
 			"path": "."
 		},
 		{
