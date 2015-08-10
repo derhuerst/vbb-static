@@ -5,7 +5,7 @@ Thumbs.db
 node_modules
 npm-debug.log
 
-data/*
+data/*.json
 .editorconfig
 .gitignore
 vbb-static.sublime-project

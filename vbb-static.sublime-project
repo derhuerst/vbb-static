@@ -10,15 +10,10 @@
 			[
 				"data",
 				"install",
-				"src",
 				"node_modules"
 			],
 			"name": "vbb-static",
 			"path": "."
-		},
-		{
-			"name": "src",
-			"path": "src"
 		},
 		{
 			"name": "install",
