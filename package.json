@@ -1,7 +1,7 @@
 {
 	"name": "vbb-static",
 	"description": "A JavaScript API for the Berlin & Brandenburg public transport service (VBB) GTFS data.",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"main": "./src/index",
 	"keywords": [
 		"vbb",
