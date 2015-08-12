@@ -21,8 +21,8 @@ orchestrator.add('stations', function (cb) {
 
 		stations[data.stop_id] = {
 			name:		data.stop_name,
-			latitude:	data.stop_lat,
-			longitude:	data.stop_lon,
+			latitude:	parseFloat(data.stop_lat),
+			longitude:	parseFloat(data.stop_lon),
 		};
 
 	})
