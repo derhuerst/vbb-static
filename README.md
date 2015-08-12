@@ -34,13 +34,15 @@ More datasets are comings soon!
 	'5100071': {
 		name: 'Zbaszynek',
 		latitude: '52.2425040',
-		longitude: '15.8180870'
+		longitude: '15.8180870',
+		weight: 2
 	},
 	// …
 	'9835850': {
 		name: 'Senftenberg, Puschkinstr.',
 		latitude: '51.5249170',
-		longitude: '14.0051770'
+		longitude: '14.0051770',
+		weight: 15
 	}
 }
 ```

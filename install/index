@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var Orchestrator =	require('orchestrator');
+var Q =				require('q');
 
 var download =		require('../install/download');
 var util =			require('../install/util');
@@ -11,6 +12,7 @@ var save =			require('../install/save');
 
 
 console.info('Pulling GTFS files from github.com/derhuerst/vbb-gtfs:');
+
 var orchestrator = new Orchestrator();
 var stations = {}, agencies = {}, routes = {}, calendar = {};
 
@@ -23,15 +25,28 @@ orchestrator.add('stations', function (cb) {
 			name:		data.stop_name,
 			latitude:	parseFloat(data.stop_lat),
 			longitude:	parseFloat(data.stop_lon),
+			weight:		0
 		};
 
 	})
-	.then(function () {
-		return save('stations.json', stations);
-	})
-	.then(function () {
-		console.info('- stops.txt -> stations.json');
-	})
+	.then(download('stop_times.txt', function (data) {
+
+			stations[data.stop_id].weight += 0.5 + parseInt(data.drop_off_type);
+
+		})
+		.then(function () {
+			var station;
+			for (station in stations) {
+				stations[station].weight = stations[station].weight | 0;
+			}
+		})
+		.then(function () {
+			return save('stations.json', stations);
+		})
+		.then(function () {
+			console.info('- stops.txt & stop_times.txt -> stations.json');
+		})
+	)
 	.then(cb)
 	.catch(cb);
 });
