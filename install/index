@@ -19,6 +19,11 @@ var stations = {}, agencies = {}, routes = {}, calendar = {};
 
 
 orchestrator.add('stations', function (cb) {
+	var dropOffWeight = {
+		'0':	5,
+		'2':	1,
+		'3':	3,
+	};
 	download('stops.txt', function (data) {
 
 		stations[data.stop_id] = {
@@ -31,7 +36,8 @@ orchestrator.add('stations', function (cb) {
 	})
 	.then(download('stop_times.txt', function (data) {
 
-			stations[data.stop_id].weight += 0.5 + parseInt(data.drop_off_type);
+			if (dropOffWeight[data.drop_off_type])
+				stations[data.stop_id].weight += dropOffWeight[data.drop_off_type];
 
 		})
 		.then(function () {
