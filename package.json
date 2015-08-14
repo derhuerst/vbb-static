@@ -36,7 +36,7 @@
 		"csv-parse":	"^0.1.4",
 		"through":		"^2.3.8",
 		"orchestrator":	"^0.3.7",
-		"vbb-util":		"^0.1.0"
+		"vbb-util":		"^0.3.0"
 	},
 	"directories": {
 		"lib":	"./src"
