@@ -1,137 +1,69 @@
 #!/usr/bin/env node
 
 var Orchestrator =	require('orchestrator');
-var Q =				require('q');
-
-var download =		require('../install/download');
-var util =			require('../install/util');
-var save =			require('../install/save');
 
 
 
 
 
-console.info('Pulling GTFS files from github.com/derhuerst/vbb-gtfs:');
+var tasks = new Orchestrator();
+var data = {
+	stations:	{},
+	agencies:	{},
+	routes:		{}
+};
 
-var orchestrator = new Orchestrator();
-var stations = {}, agencies = {}, routes = {}, calendar = {};
 
 
-
-orchestrator.add('stations', function (cb) {
-	var dropOffWeight = {
-		'0':	5,
-		'2':	1,
-		'3':	3,
-	};
-	download('stops.txt', function (data) {
-
-		stations[data.stop_id] = {
-			name:		data.stop_name,
-			latitude:	parseFloat(data.stop_lat),
-			longitude:	parseFloat(data.stop_lon),
-			weight:		0
-		};
-
-	})
-	.then(download('stop_times.txt', function (data) {
-
-			if (dropOffWeight[data.drop_off_type])
-				stations[data.stop_id].weight += dropOffWeight[data.drop_off_type];
-
-		})
-		.then(function () {
-			var station;
-			for (station in stations) {
-				stations[station].weight = stations[station].weight | 0;
-			}
-		})
-		.then(function () {
-			return save('stations.json', stations);
-		})
-		.then(function () {
-			console.info('- stops.txt & stop_times.txt -> stations.json');
-		})
-	)
-	.then(cb)
-	.catch(cb);
+var download =		require('../util/download');
+tasks.add('download', function () {
+	return Q.all([
+		download('stops.txt'),
+		download('stop_times.txt'),
+		download('agency.txt'),
+		download('routes.txt')
+	]);
 });
 
 
 
-orchestrator.add('agencies', function (cb) {
-	download('agency.txt', function (data) {
-
-		agencies[util.parseAgency(data.agency_id)] = {
-			name:	data.agency_name,
-			url:	data.agency_url,
-			phone:	data.agency_phone
-		};
-
-	})
-	.then(function () {
-		return save('agencies.json', agencies);
-	})
-	.then(function () {
-		console.info('- agency.txt -> agencies.json');
-	})
-	.then(cb)
-	.catch(cb);
+var stations =		require('./stations');
+tasks.add('stations', ['download'], function () {
+	return stations.parse(data.stations)
+	.then(stations.weights)
+	.then(stations.save);
 });
 
 
 
-orchestrator.add('routes', function (cb) {
-	download('routes.txt', function (data) {
-
-		if (!data.route_short_name) return;
-		routes[data.route_short_name] = {
-			agency:	util.parseAgency(data.agency_id),
-			type:	util.parseRouteType(data.route_type)
-		};
-
-	})
-	.then(function () {
-		return save('routes.json', routes);
-	})
-	.then(function () {
-		console.info('- routes.txt -> routes.json');
-	})
-	.then(cb)
-	.catch(cb);
+var agencies =		require('./agencies');
+tasks.add('agencies', ['download'], function () {
+	return agencies.parse(data.agencies)
+	.then(agencies.save);
 });
 
 
 
-orchestrator.add('calendar', function (cb) {
-	download('calendar_dates.txt', function (data) {
+var routes =		require('./routes');
+tasks.add('routes', ['download'], function () {
+	return routes.parse(data.routes)
+	.then(routes.save);
+});
 
-		if (!calendar[data.service_id])
-			calendar[data.service_id] = {
-				availableOn:	[],
-				unavailableOn:	[]
-			};
 
-		if (!(parseInt(data.exception_type) - 1))
-			var day = calendar[data.service_id].availableOn;
-		else
-			var day = calendar[data.service_id].unavailableOn;
 
-		day.push(util.stringifyDate(util.parseDate(data.date)));
-
-	})
-	.then(function () {
-		return save('calendar.json', calendar);
-	})
-	.then(function () {
-		console.info('- calendar_dates.txt -> calendar.json');
-	})
-	.then(cb)
-	.catch(cb);
+var remove =		require('../util/remove');
+tasks.add('all', ['stations', 'agencies', 'routes'], function () {
+	return Q.all([
+		remove('stops.txt'),
+		remove('stop_times.txt'),
+		remove('agency.txt'),
+		remove('routes.txt')
+	]);
 });
 
 
 
 
 
-orchestrator.start('stations', 'agencies', 'routes', 'calendar');
+tasks.start('all');
