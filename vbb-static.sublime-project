@@ -9,7 +9,7 @@
 			"folder_exclude_patterns":
 			[
 				"data",
-				"install",
+				"scripts",
 				"util",
 				"node_modules"
 			],
@@ -17,8 +17,8 @@
 			"path": "."
 		},
 		{
-			"name": "install",
-			"path": "install"
+			"name": "scripts",
+			"path": "scripts"
 		},
 		{
 			"name": "util",

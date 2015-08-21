@@ -1,47 +1,52 @@
 {
-	"name": "vbb-static",
-	"description": "A JavaScript API for the Berlin & Brandenburg public transport service (VBB) GTFS data.",
-	"version": "0.2.1",
-	"main": "./src",
-	"keywords": [
-		"vbb",
-		"static",
-		"berlin",
-		"brandenburg",
-		"public transport",
-		"gtfs",
-		"open data",
-		"json",
-		"fahrinfo",
-		"coffeescript",
-		"javascript"
-	],
-	"author": {
-		"name": "Jannis R",
-		"email": "mail@jannisr.de",
-		"url": "http://jannisr.de"
-	},
-	"homepage": "https://github.com/derhuerst/vbb-static",
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/derhuerst/vbb-static.git"
-	},
-	"bugs": {
-		"url": "https://github.com/derhuerst/vbb-static/issues"
-	},
-	"license": "MIT",
-	"dependencies": {
-		"q":			"^1.4.1",
-		"request":		"^2.60.0",
-		"csv-parse":	"^0.1.4",
-		"through":		"^2.3.8",
-		"orchestrator":	"^0.3.7",
-		"vbb-util":		"^0.3.0"
-	},
-	"directories": {
-		"lib":	"./src"
-	},
-	"scripts": {
-		"install":	"install/index"
-	}
+  "name": "vbb-static",
+  "description": "A JavaScript API for the Berlin & Brandenburg public transport service (VBB) GTFS data.",
+  "version": "0.2.1",
+  "main": "./src",
+  "keywords": [
+    "vbb",
+    "static",
+    "berlin",
+    "brandenburg",
+    "public transport",
+    "gtfs",
+    "open data",
+    "json",
+    "fahrinfo",
+    "coffeescript",
+    "javascript"
+  ],
+  "author": {
+    "name": "Jannis R",
+    "email": "mail@jannisr.de",
+    "url": "http://jannisr.de"
+  },
+  "homepage": "https://github.com/derhuerst/vbb-static",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/derhuerst/vbb-static.git"
+  },
+  "bugs": {
+    "url": "https://github.com/derhuerst/vbb-static/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "q": "^1.4.1",
+    "request": "^2.60.0",
+    "csv-parse": "^0.1.4",
+    "through": "^2.3.8",
+    "orchestrator": "^0.3.7",
+    "vbb-util": "^0.3.0"
+  },
+  "directories": {
+    "lib": "./src"
+  },
+  "scripts": {
+    "install": "install/index",
+    "test": "mocha test/*"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "should": "^7.0.4"
+  }
 }
