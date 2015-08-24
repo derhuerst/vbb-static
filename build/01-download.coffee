@@ -1,3 +1,5 @@
+Q =				require 'q'
+mkdir =			require 'mkdir-p'
 download =		require 'download-stream'
 unzip =			require 'unzip2'
 path =			require 'path'
@@ -7,7 +9,7 @@ fs =			require 'fs'
 
 
 
-base = path.join __dirname, '../data'
+base = path.join __dirname, '../data/csv'
 paths =
 	'agency.txt':			'agencies.csv'
 	'calendar.txt':			'calendar.csv'
@@ -22,19 +24,22 @@ paths =
 
 console.log 'Downloading & extracting GTFS zip file:'
 
-zip = unzip.Parse()
-download 'https://codeload.github.com/derhuerst/vbb-gtfs/zip/master'
-.pipe zip
+Q.nfcall mkdir, base
+.done () ->
 
-zip.on 'entry', (entry) ->
-	name = path.basename entry.path
-	if entry.type != 'File' or not paths[name]
-		return entry.autodrain()
-	console.info '-', name, '->', paths[name]
-	entry.pipe fs.createWriteStream path.join base, paths[name]
+	zip = unzip.Parse()
+	download 'https://codeload.github.com/derhuerst/vbb-gtfs/zip/master'
+	.pipe zip
 
-zip.on 'error', (err) ->
-	console.error err.stack
+	zip.on 'entry', (entry) ->
+		name = path.basename entry.path
+		if entry.type != 'File' or not paths[name]
+			return entry.autodrain()
+		console.info '-', name, '->', paths[name]
+		entry.pipe fs.createWriteStream path.join base, paths[name]
 
-zip.on 'finish', () ->
-	console.info 'Done.'
+	zip.on 'error', (err) ->
+		console.error err.stack
+
+	zip.on 'finish', () ->
+		console.info 'Done.'

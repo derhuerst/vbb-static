@@ -8,7 +8,8 @@ ndjson =		require 'ndjson'
 
 
 
-base = path.join __dirname, '../data'
+sourceBase = path.join __dirname, '../data/csv'
+targetBase = path.join __dirname, '../data'
 
 filters =
 	'agencies.csv': (data) ->
@@ -69,8 +70,8 @@ for sourceFile, filter of filters
 	stringify = ndjson.stringify()
 	stringify.on 'error', (err) -> console.error err.stack
 
-	fs.createReadStream path.join base, sourceFile
+	fs.createReadStream path.join sourceBase, sourceFile
 	.pipe parse
 	.pipe through filter
 	.pipe stringify
-	.pipe fs.createWriteStream path.join base, targetFile
+	.pipe fs.createWriteStream path.join targetBase, targetFile

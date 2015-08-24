@@ -6,5 +6,5 @@ node_modules
 npm-debug.log
 
 data/*.ndjson
-data/*.csv
+data/csv
 vbb-static.sublime-workspace

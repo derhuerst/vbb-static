@@ -86,7 +86,7 @@ computeDaysInSchedules = (schedules) ->
 readCsv = (file, handle) ->
 	task = Q.defer()
 
-	parse = fs.createReadStream path.join __dirname, '../data', file
+	parse = fs.createReadStream path.join __dirname, '../data/csv', file
 	.pipe csv
 		columns:	true
 	parse.on 'error', (err) ->
