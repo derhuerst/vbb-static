@@ -43,8 +43,6 @@ processScheduleException = (schedules) ->
 		if not schedule or not schedule.start then return
 
 		date = parseDate(data.date).valueOf()
-		# if not schedule.available or not schedule.notAvailable
-		# 	console.log schedule
 		if not (data.exception_type - 1)
 			schedule.available.push date
 		else schedule.notAvailable.push date
@@ -63,19 +61,19 @@ computeDaysInSchedules = (schedules) ->
 			{ available: [], notAvailable: [] }   # saturday
 		]
 		for date in schedule.available
-			days[moment(date).day()].available.push day
+			days[moment(date).day()].available.push date
 		for date in schedule.notAvailable
-			days[moment(date).day()].notAvailable.push day
+			days[moment(date).day()].notAvailable.push date
 
 		for day, name in days
-			if day.available.length > day.notAvailable
+			if day.available.length > day.notAvailable.length
 				schedule[daysOfWeek[name]] =
 					default:	true
-					exceptions:	schedule.notAvailable
+					exceptions:	day.notAvailable
 			else
 				schedule[daysOfWeek[name]] =
 					default:	false
-					exceptions:	schedule.available
+					exceptions:	day.available
 
 		delete schedule.available
 		delete schedule.notAvailable
@@ -103,25 +101,26 @@ readCsv = (file, handle) ->
 
 writeNdjson = (file) ->
 	return (schedules) ->
-		#return console.log schedules   # todo: remove
 		task = Q.defer()
 
 		stringify = ndjson.stringify()
-		file.on 'error', (err) ->
+		stringify.on 'error', (err) ->
 			console.error err.stack   # todo: remove?
 			task.reject err
 
-		file = stringify
-		.pipe fs.createWriteStream path.join __dirname, '../data', file
+		writeStream = fs.createWriteStream path.join __dirname, '../data', file
 
-		file.on 'error', (err) ->
+		writeStream.on 'error', (err) ->
 			console.error err.stack   # todo: remove?
 			task.reject err
-		file.on 'finish', (end) -> task.resolve()
+		writeStream.on 'finish', task.resolve
 
+		stringify.pipe writeStream
 		for id, schedule of schedules
-			return console.log schedule   # todo: remove
+			delete schedule.start
+			delete schedule.days
 			stringify.write schedule
+		stringify.end()
 
 		return task.promise
 
@@ -132,6 +131,8 @@ writeNdjson = (file) ->
 simplify = Q.defer()
 schedules = {}
 
+console.log 'Merging calendar.csv & calendar-exceptions.csv into schedule.ndjson:'
+
 # read & accumulate data
 readCsv 'calendar.csv', processSchedule schedules
 .then () ->
@@ -139,13 +140,15 @@ readCsv 'calendar.csv', processSchedule schedules
 
 # pass `schedules` in
 .then () ->
-	console.log schedules
 	return schedules
 
 # process data
 .then computeDaysInSchedules
-.catch (err) ->
-	console.error err.stack
 
 # write data
 .then writeNdjson 'schedules.ndjson'
+.catch (err) ->
+	console.error err.stack
+
+.then () ->
+	console.log 'Done.'
