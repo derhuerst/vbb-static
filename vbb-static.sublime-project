@@ -8,21 +8,21 @@
 			],
 			"folder_exclude_patterns":
 			[
+				"build",
 				"data",
-				"scripts",
-				"util",
+				"test",
 				"node_modules"
 			],
 			"name": "vbb-static",
 			"path": "."
 		},
 		{
-			"name": "scripts",
-			"path": "scripts"
+			"name": "build",
+			"path": "build"
 		},
 		{
-			"name": "util",
-			"path": "util"
+			"name": "test",
+			"path": "test"
 		},
 		{
 			"name": "data",
