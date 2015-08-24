@@ -45,7 +45,7 @@
     "lib":    "./src"
   },
   "scripts": {
-    "build":  "install/index",
+    "build":  "build/index.sh",
     "test":   "mocha --compilers coffee:coffee-script/register --reporter mocha-tldr-reporter test/*"
   }
 }
