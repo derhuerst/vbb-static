@@ -30,23 +30,22 @@
     "url": "https://github.com/derhuerst/vbb-static/issues"
   },
   "license": "MIT",
-  "dependencies": {
-    "q": "^1.4.1",
-    "request": "^2.60.0",
-    "csv-parse": "^0.1.4",
-    "through": "^2.3.8",
-    "orchestrator": "^0.3.7",
-    "vbb-util": "^0.3.0"
+  "devDependencies": {
+    "download-stream":	"^1.0.1",
+    "unzip2":						"^0.2.5",
+    "csv-parse":				"^0.1.4",
+    "through":					"^2.3.8",
+    "ndjson":						"^1.4.1",
+    "moment":						"^2.10.6",
+    "q":								"^1.4.1",
+    "mocha":						"^2.2.5",
+    "should":						"^7.0.4"
   },
   "directories": {
-    "lib": "./src"
+    "lib":    "./src"
   },
   "scripts": {
-    "install": "install/index",
-    "test": "mocha test/*"
-  },
-  "devDependencies": {
-    "mocha": "^2.2.5",
-    "should": "^7.0.4"
+    "build":  "install/index",
+    "test":   "mocha --compilers coffee:coffee-script/register --reporter mocha-tldr-reporter test/*"
   }
 }
