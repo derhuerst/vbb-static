@@ -12,13 +12,13 @@ fs =			require 'fs'
 base = path.join __dirname, '../data/csv'
 paths =
 	'agency.txt':			'agencies.csv'
-	'calendar.txt':			'calendar.csv'
-	'calendar_dates.txt':	'calendar-exceptions.csv'
 	'routes.txt':			'routes.csv'
+	'trips.txt':			'trips.csv'
 	'stop_times.txt':		'trips-stations.csv'
 	'stops.txt':			'stations.csv'
 	'transfers.txt':		'transfers.csv'
-	'trips.txt':			'trips.csv'
+	'calendar.txt':			'calendar.csv'
+	'calendar_dates.txt':	'calendar-exceptions.csv'
 
 
 

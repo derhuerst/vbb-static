@@ -1,6 +1,18 @@
 {
 	"name": "vbb-static",
 	"description": "A JavaScript API for the Berlin & Brandenburg public transport service (VBB) GTFS data.",
+	"license": "MIT",
+	"author": {
+		"name": "Jannis R",
+		"email": "mail@jannisr.de",
+		"url": "http://jannisr.de"
+	},
+	"homepage": "https://github.com/derhuerst/vbb-static",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/derhuerst/vbb-static.git"
+	},
+	"bugs": "https://github.com/derhuerst/vbb-static/issues",
 	"version": "0.2.1",
 	"main": "./src",
 	"keywords": [
@@ -12,24 +24,12 @@
 		"gtfs",
 		"open data",
 		"json",
+		"ndjson",
+		"csv",
 		"fahrinfo",
 		"coffeescript",
 		"javascript"
 	],
-	"author": {
-		"name": "Jannis R",
-		"email": "mail@jannisr.de",
-		"url": "http://jannisr.de"
-	},
-	"homepage": "https://github.com/derhuerst/vbb-static",
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/derhuerst/vbb-static.git"
-	},
-	"bugs": {
-		"url": "https://github.com/derhuerst/vbb-static/issues"
-	},
-	"license": "MIT",
 	"devDependencies": {
 		"download-stream":	"^1.0.1",
 		"unzip2":			"^0.2.5",
@@ -43,10 +43,10 @@
 		"should":			"^7.0.4"
 	},
 	"directories": {
-		"lib":    "./src"
+		"lib":		"./src"
 	},
 	"scripts": {
-		"build":  "build/index.sh",
-		"test":   "mocha --compilers coffee:coffee-script/register --reporter mocha-tldr-reporter test/*"
+		"build":	"build/index.sh",
+		"test":		"mocha --compilers coffee:coffee-script/register test/*"
 	}
 }
