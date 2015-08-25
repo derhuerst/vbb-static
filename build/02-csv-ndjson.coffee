@@ -47,13 +47,6 @@ filters =
 			tripFromId:		parseInt data.from_trip_id
 			tripToId:		parseInt data.to_trip_id
 
-	'trips.csv': (data) ->
-		this.queue
-			id:				parseInt data.trip_id
-			routeId:		parseInt data.route_id
-			scheduleId:		parseInt data.service_id
-			name:			data.trip_headsign
-
 
 
 console.log 'Converting CSV to newline-delimited JSON:'
