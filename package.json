@@ -1,52 +1,52 @@
 {
-  "name": "vbb-static",
-  "description": "A JavaScript API for the Berlin & Brandenburg public transport service (VBB) GTFS data.",
-  "version": "0.2.1",
-  "main": "./src",
-  "keywords": [
-    "vbb",
-    "static",
-    "berlin",
-    "brandenburg",
-    "public transport",
-    "gtfs",
-    "open data",
-    "json",
-    "fahrinfo",
-    "coffeescript",
-    "javascript"
-  ],
-  "author": {
-    "name": "Jannis R",
-    "email": "mail@jannisr.de",
-    "url": "http://jannisr.de"
-  },
-  "homepage": "https://github.com/derhuerst/vbb-static",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/derhuerst/vbb-static.git"
-  },
-  "bugs": {
-    "url": "https://github.com/derhuerst/vbb-static/issues"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "download-stream":	"^1.0.1",
-    "unzip2":						"^0.2.5",
-    "csv-parse":				"^0.1.4",
-    "through":					"^2.3.8",
-    "ndjson":						"^1.4.1",
-    "moment":						"^2.10.6",
-    "q":								"^1.4.1",
-    "delete":						"^0.2.1",
-    "mocha":						"^2.2.5",
-    "should":						"^7.0.4"
-  },
-  "directories": {
-    "lib":    "./src"
-  },
-  "scripts": {
-    "build":  "build/index.sh",
-    "test":   "mocha --compilers coffee:coffee-script/register --reporter mocha-tldr-reporter test/*"
-  }
+	"name": "vbb-static",
+	"description": "A JavaScript API for the Berlin & Brandenburg public transport service (VBB) GTFS data.",
+	"version": "0.2.1",
+	"main": "./src",
+	"keywords": [
+		"vbb",
+		"static",
+		"berlin",
+		"brandenburg",
+		"public transport",
+		"gtfs",
+		"open data",
+		"json",
+		"fahrinfo",
+		"coffeescript",
+		"javascript"
+	],
+	"author": {
+		"name": "Jannis R",
+		"email": "mail@jannisr.de",
+		"url": "http://jannisr.de"
+	},
+	"homepage": "https://github.com/derhuerst/vbb-static",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/derhuerst/vbb-static.git"
+	},
+	"bugs": {
+		"url": "https://github.com/derhuerst/vbb-static/issues"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"download-stream":	"^1.0.1",
+		"unzip2":			"^0.2.5",
+		"csv-parse":		"^0.1.4",
+		"through":			"^2.3.8",
+		"ndjson":			"^1.4.1",
+		"moment":			"^2.10.6",
+		"q":				"^1.4.1",
+		"delete":			"^0.2.1",
+		"mocha":			"^2.2.5",
+		"should":			"^7.0.4"
+	},
+	"directories": {
+		"lib":    "./src"
+	},
+	"scripts": {
+		"build":  "build/index.sh",
+		"test":   "mocha --compilers coffee:coffee-script/register --reporter mocha-tldr-reporter test/*"
+	}
 }
