@@ -5,7 +5,7 @@ del =			require 'delete'
 
 
 
-console.log 'Deleting `data/*.csv`:'
+console.log 'Deleting `data/csv`:'
 
 del.promise path.join __dirname, '../data/csv'
 .then () ->

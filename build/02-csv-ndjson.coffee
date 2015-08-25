@@ -25,13 +25,6 @@ filters =
 			name:			data.route_short_name
 			agencyId:		data.agency_id
 
-	'trip-stations.csv': (data) ->
-		this.queue
-			tripId:			parseInt data.trip_id
-			stationId:		parseInt data.stop_id
-			index:			parseInt data.stop_sequence
-			# todo: `data.pickup_type` & `data.drop_off_type` ?
-
 	'stations.csv': (data) ->
 		this.queue
 			id:				parseInt data.stop_id

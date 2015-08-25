@@ -9,6 +9,10 @@ ndjson =		require 'ndjson'
 
 
 
+# todo: `data.pickup_type` & `data.drop_off_type` ?
+
+
+
 processTrip = (trips) ->
 	return (data) ->
 		trips[data.trip_id] =

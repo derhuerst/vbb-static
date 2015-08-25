@@ -31,6 +31,8 @@
 		"javascript"
 	],
 	"devDependencies": {
+		"coffee-script":	"^1.9.3",
+		"mkdir-p":			"^0.0.6",
 		"download-stream":	"^1.0.1",
 		"unzip2":			"^0.2.5",
 		"csv-parse":		"^0.1.4",
