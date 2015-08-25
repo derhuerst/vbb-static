@@ -15,7 +15,7 @@ paths =
 	'calendar.txt':			'calendar.csv'
 	'calendar_dates.txt':	'calendar-exceptions.csv'
 	'routes.txt':			'routes.csv'
-	'stop_times.txt':		'trip-stations.csv'
+	'stop_times.txt':		'trips-stations.csv'
 	'stops.txt':			'stations.csv'
 	'transfers.txt':		'transfers.csv'
 	'trips.txt':			'trips.csv'
