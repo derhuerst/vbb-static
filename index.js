@@ -2,6 +2,7 @@ var path =		require('path');
 var Q =			require('q');
 var fs =		require('fs');
 var ndjson =	require('ndjson');
+var select =	require('select-stream');
 
 
 
@@ -9,63 +10,67 @@ var ndjson =	require('ndjson');
 
 var base = path.join(__dirname, 'data');
 
-function loadCsv (file, filter) {
+function loadCsv (file, filter, collect, finalize) {
 	var deferred = Q.defer();
 	var results = [];
 
-	var read = fs.createReadStream(path.join(base, file));
-	read.on('error', deferred.reject);
+	var stream = fs.createReadStream(path.join(base, file))
+	.pipe(ndjson.parse())
+	.pipe(select(filter));
+	stream.on('error', deferred.reject);
 
-	var parse = ndjson.parse();
-	read.pipe(parse);
-	parse.on('error', deferred.reject);
-	parse.on('end', function () {
+	stream.on('data', function (data) {
+		collect(results, data);
+	});
+	stream.on('end', function () {
+		results = finalize(results);
 		deferred.resolve(results);
 	});
 
-	parse.on('data', function (data) {
-		filter(results, data);
-	});
-
 	return deferred.promise;
+}
+
+function filter (pattern) {
+	if (typeof pattern === 'object')
+		return function (data) {
+			for (var key in pattern) {
+				if (pattern.hasOwnProperty(key))
+					if (pattern[key] !== data[key]) return false;
+			}
+			return true;
+		};
+	else
+		return function (data) {
+			return data.id === pattern
+		};
+}
+
+function collect (results, data) {
+	results.push(data);
+}
+
+function finalize (results) {
+	if (results.length === 0) return null;
+	if (results.length === 1) return results[0];
+	else return results;
 }
 
 
 
 
 
+function method (file, filter, collect, finalize) {
+	return function (pattern) {
+		return loadCsv(file, filter(pattern), collect, finalize);
+	};
+}
+
 module.exports = {
 
-	agency: function (id) {
-		return loadCsv('agencies.ndjson', function (results, data) {
-			if (data.id === id) results.push(data);
-		});
-	},
-
-	route: function (id) {
-		return loadCsv('routes.ndjson', function (results, data) {
-			if (data.id === id) results.push(data);
-		});
-	},
-
-	schedule: function (id) {
-		return loadCsv('schedules.ndjson', function (results, data) {
-			if (data.id === id) results.push(data);
-		});
-	},
-
-	station: function (id) {
-		return loadCsv('stations.ndjson', function (results, data) {
-			if (data.id === id) results.push(data);
-		});
-	},
-
-	// todo: transfers.ndjson
-
-	trip: function (id) {
-		return loadCsv('trips.ndjson', function (results, data) {
-			if (data.id === id) results.push(data);
-		});
-	}
+	agency:		method('agencies.ndjson', filter, collect, finalize),
+	route:		method('routes.ndjson', filter, collect, finalize),
+	station:	method('stations.ndjson', filter, collect, finalize),
+	transfer:	method('transfers.ndjson', filter, collect, finalize),
+	trip:		method('trips.ndjson', filter, collect, finalize)
 
 };
