@@ -14,7 +14,7 @@
 	},
 	"bugs": "https://github.com/derhuerst/vbb-static/issues",
 	"version": "0.2.1",
-	"main": "./src",
+	"main": "./index.js",
 	"keywords": [
 		"vbb",
 		"static",
@@ -35,7 +35,7 @@
 		"mkdir-p":			"^0.0.6",
 		"download-stream":	"^1.0.1",
 		"unzip2":			"^0.2.5",
-		"csv-parse":		"^0.1.4",
+		"csv-parse":		"^1.0.0",
 		"through":			"^2.3.8",
 		"ndjson":			"^1.4.1",
 		"moment":			"^2.10.6",
