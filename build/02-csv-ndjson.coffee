@@ -12,7 +12,7 @@ sourceBase = path.join __dirname, '../data/csv'
 targetBase = path.join __dirname, '../data'
 
 parseAgency = (agency) ->
-	return agency.replace /[^\w]+$/, ''
+	return agency.replace /[^a-zA-Z0-9]+$/, ''
 
 
 
@@ -42,8 +42,6 @@ filters =
 			stationFromId:	parseInt data.from_stop_id
 			stationToId:	parseInt data.to_stop_id
 			time:			parseInt data.min_transfer_time
-			tripFromId:		parseInt data.from_trip_id
-			tripToId:		parseInt data.to_trip_id
 
 
 
