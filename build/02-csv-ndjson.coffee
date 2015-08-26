@@ -30,13 +30,6 @@ filters =
 			name:			data.route_short_name
 			agencyId:		data.agency_id
 
-	'stations.csv': (data) ->
-		this.queue
-			id:				parseInt data.stop_id
-			name:			data.stop_name
-			latitude:		parseFloat data.stop_lat
-			longitude:		parseFloat data.stop_lon
-
 	'transfers.csv': (data) ->
 		this.queue
 			stationFromId:	parseInt data.from_stop_id
