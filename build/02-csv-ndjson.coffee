@@ -11,10 +11,15 @@ ndjson =		require 'ndjson'
 sourceBase = path.join __dirname, '../data/csv'
 targetBase = path.join __dirname, '../data'
 
+parseAgency = (agency) ->
+	return agency.replace /[^\w]+$/, ''
+
+
+
 filters =
 	'agencies.csv': (data) ->
 		this.queue
-			id:				data.agency_id
+			id:				parseAgency data.agency_id
 			name:			data.agency_name
 			url:			data.agency_url
 
