@@ -28,7 +28,7 @@ filters =
 		this.queue
 			id:				parseInt data.route_id
 			name:			data.route_short_name
-			agencyId:		data.agency_id
+			agencyId:		parseAgency data.agency_id
 
 	'transfers.csv': (data) ->
 		this.queue
