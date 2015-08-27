@@ -86,7 +86,6 @@ writeNdjson = (file) ->
 
 
 
-simplify = Q.defer()
 trips = {}
 
 console.log 'Merging trips.csv & trips-stations.csv into trips.ndjson:'

@@ -50,7 +50,8 @@
 		"select-stream":	"^0.1.0"
 	},
 	"directories": {
-		"lib":		"./src"
+		"src":		"./",
+		"test":		"./test"
 	},
 	"scripts": {
 		"build":	"build/index.sh",
