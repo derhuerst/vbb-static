@@ -10,12 +10,18 @@ var select =	require('select-stream');
 
 var base = path.join(__dirname, 'data');
 
-function loadCsv (file, filter, collect, finalize) {
+
+
+function loadData (file) {
+	return fs.createReadStream(path.join(base, file))
+	.pipe(ndjson.parse());
+}
+
+function filterData (file, filter, collect, finalize) {
 	var deferred = Q.defer();
 	var results = [];
 
-	var stream = fs.createReadStream(path.join(base, file))
-	.pipe(ndjson.parse())
+	var stream = loadData(file)
 	.pipe(select(filter));
 	stream.on('error', deferred.reject);
 
@@ -29,6 +35,11 @@ function loadCsv (file, filter, collect, finalize) {
 
 	return deferred.promise;
 }
+
+
+
+
+
 
 function filter (pattern) {
 	if (typeof pattern === 'object')
@@ -61,7 +72,7 @@ function finalize (results) {
 
 function method (file, filter, collect, finalize) {
 	return function (pattern) {
-		return loadCsv(file, filter(pattern), collect, finalize);
+		return filterData(file, filter(pattern), collect, finalize);
 	};
 }
 
@@ -72,6 +83,13 @@ module.exports = {
 	station:		method('stations.ndjson', filter, collect, finalize),
 	transfer:		method('transfers.ndjson', filter, collect, finalize),
 	trip:			method('trips.ndjson', filter, collect, finalize),
-	schedule:		method('schedules.ndjson', filter, collect, finalize)
+	schedule:		method('schedules.ndjson', filter, collect, finalize),
+
+	allAgencies:	function () { return loadData('agencies.ndjson'); },
+	allRoutes:		function () { return loadData('routes.ndjson'); },
+	allStations:	function () { return loadData('stations.ndjson'); },
+	allTransfers:	function () { return loadData('transfers.ndjson'); },
+	allTrips:		function () { return loadData('trips.ndjson'); },
+	allSchedules:	function () { return loadData('schedules.ndjson'); }
 
 };

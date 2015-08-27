@@ -26,9 +26,10 @@ First, `require` the API to access the data.
 var static = require('vbb-static');
 ```
 
-Now, you can query single datasets. Because some of them are pretty big, **all operations work [promise](http://documentup.com/kriskowal/q/)-based**.
 
-Each dataset has a method. All methods accept a filter `pattern` that will be applied strictly (`===`).
+### Filtering
+
+Because some of the datasets are pretty big, **all *filter* operations work [promise](http://documentup.com/kriskowal/q/)-based**. All methods accept a `pattern` that will be applied strictly (`===`).
 
 To filter by `id`, just pass the value.
 
@@ -36,7 +37,7 @@ To filter by `id`, just pass the value.
 static.route(1173).then(…);
 ```
 
-To filter by multiple field, pass them in an object.
+To filter by multiple fields, pass them in an object.
 
 ```javascript
 static.route({
@@ -45,15 +46,26 @@ static.route({
 }).then(…);
 ```
 
-### Methods
+These methods are available:
 
 - `agency(pattern)`
 - `route(pattern)`
-- `schedule(pattern)`
 - `station(pattern)`
 - `transfer(pattern)`
 - `trip(pattern)`
 - `schedule(pattern)`
+
+
+### *Whole* Datasets
+
+The get *whole* datasets, use the following methods. When called, each will return an [object stream](https://nodejs.org/api/stream.html#stream_object_mode).
+
+- `allAgencies()`
+- `allRoutes()`
+- `allStations()`
+- `allTransfers()`
+- `allTrips()`
+- `allSchedules()`
 
 
 
