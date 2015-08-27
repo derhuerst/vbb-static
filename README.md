@@ -53,6 +53,7 @@ static.route({
 - `station(pattern)`
 - `transfer(pattern)`
 - `trip(pattern)`
+- `schedule(pattern)`
 
 
 
@@ -89,7 +90,8 @@ will [resolve](http://documentup.com/kriskowal/q/#tutorial) with
 	id: 9042101,
 	name: 'U Spichernstr. (Berlin)',
 	latitude: 52.496582,
-	longitude: 13.330613
+	longitude: 13.330613,
+	weight: 13585
 }
 ```
 

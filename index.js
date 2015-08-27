@@ -67,10 +67,11 @@ function method (file, filter, collect, finalize) {
 
 module.exports = {
 
-	agency:		method('agencies.ndjson', filter, collect, finalize),
-	route:		method('routes.ndjson', filter, collect, finalize),
-	station:	method('stations.ndjson', filter, collect, finalize),
-	transfer:	method('transfers.ndjson', filter, collect, finalize),
-	trip:		method('trips.ndjson', filter, collect, finalize)
+	agency:			method('agencies.ndjson', filter, collect, finalize),
+	route:			method('routes.ndjson', filter, collect, finalize),
+	station:		method('stations.ndjson', filter, collect, finalize),
+	transfer:		method('transfers.ndjson', filter, collect, finalize),
+	trip:			method('trips.ndjson', filter, collect, finalize),
+	schedule:		method('schedules.ndjson', filter, collect, finalize)
 
 };
