@@ -44,6 +44,11 @@
 		"mocha":			"^2.2.5",
 		"should":			"^7.0.4"
 	},
+	"dependencies": {
+		"q":				"^1.4.1",
+		"ndjson":			"^1.4.1",
+		"select-stream":	"^0.1.0"
+	},
 	"directories": {
 		"lib":		"./src"
 	},
