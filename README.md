@@ -20,24 +20,26 @@ npm install vbb-static
 
 ## Usage
 
-First, `require` the API to access the data.
-
 ```javascript
 var static = require('vbb-static');
 ```
 
+This will give you a static object with one method for each dataset. Each method has an optional `promised` switch and a required `filter`.
 
-### Filtering
+- `agencies( [promised,] filter )`
+- `routes( [promised,] filter )`
+- `stations( [promised,] filter )`
+- `transfers( [promised,] filter )`
+- `trips( [promised,] filter )`
+- `schedules( [promised,] filter )`
 
-Because some of the datasets are pretty big, **all *filter* operations work [promise](http://documentup.com/kriskowal/q/)-based**. All methods accept a `pattern` that will be applied strictly (`===`).
-
-To filter by `id`, just pass the value.
+**To filter by `id`, just pass the value.**
 
 ```javascript
 static.route(1173).then(…);
 ```
 
-To filter by multiple fields, pass them in an object.
+**To filter by multiple fields, pass them in an object.**
 
 ```javascript
 static.route({
@@ -45,27 +47,6 @@ static.route({
 	stationToId: 9003176
 }).then(…);
 ```
-
-These methods are available:
-
-- `agency(pattern)`
-- `route(pattern)`
-- `station(pattern)`
-- `transfer(pattern)`
-- `trip(pattern)`
-- `schedule(pattern)`
-
-
-### *Whole* Datasets
-
-The get *whole* datasets, use the following methods. When called, each will return an [object stream](https://nodejs.org/api/stream.html#stream_object_mode).
-
-- `allAgencies()`
-- `allRoutes()`
-- `allStations()`
-- `allTransfers()`
-- `allTrips()`
-- `allSchedules()`
 
 
 
@@ -75,17 +56,17 @@ The get *whole* datasets, use the following methods. When called, each will retu
 ### `agencies` dataset
 
 ```javascript
-static.agency('VIB');
+static.agencies(true, 'VIB')
 ```
 
-will [resolve](http://documentup.com/kriskowal/q/#tutorial) with
+returns a [promise that will resolve](http://documentup.com/kriskowal/q/#tutorial) with
 
 ```javascript
-{
+[{
 	id: 'VIB',
 	name: 'Verkehrsbetrieb Potsdam GmbH',
 	url: 'http://www.vip-potsdam.de'
-}
+}]
 ```
 
 
@@ -95,7 +76,7 @@ will [resolve](http://documentup.com/kriskowal/q/#tutorial) with
 static.station(9042101);
 ```
 
-will [resolve](http://documentup.com/kriskowal/q/#tutorial) with
+returns an [object stream](https://nodejs.org/api/stream.html#stream_object_mode) that will emit `data` once with
 
 ```javascript
 {
@@ -104,35 +85,6 @@ will [resolve](http://documentup.com/kriskowal/q/#tutorial) with
 	latitude: 52.496582,
 	longitude: 13.330613,
 	weight: 13585
-}
-```
-
-
-### `trips` dataset
-
-```javascript
-static.trip(107);
-```
-
-will [resolve](http://documentup.com/kriskowal/q/#tutorial) with
-
-```javascript
-{
-	id: 107,
-	routeId: 11,
-	scheduleId: '001506',
-	name: 'S Strausberg Bhf',
-	stations: [
-		{
-			s: 9321168,   // station id
-			t: 58500000   // time in milliseconds
-		},
-		// …
-		{
-			s: 9320004,
-			t: 61800000
-		}
-	]
 }
 ```
 
