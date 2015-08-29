@@ -31,21 +31,23 @@
 		"javascript"
 	],
 	"devDependencies": {
-		"coffee-script":	"^1.9.3",
-		"mkdir-p":			"^0.0.6",
-		"download-stream":	"^1.0.1",
-		"unzip2":			"^0.2.5",
-		"csv-parse":		"^1.0.0",
-		"through":			"^2.3.8",
-		"moment":			"^2.10.6",
-		"delete":			"^0.2.1",
-		"mocha":			"^2.2.5",
-		"should":			"^7.0.4"
+		"coffee-script":		"^1.9.3",
+		"mkdir-p":				"^0.0.6",
+		"download-stream":		"^1.0.1",
+		"unzip2":				"^0.2.5",
+		"csv-parse":			"^1.0.0",
+		"through":				"^2.3.8",
+		"moment":				"^2.10.6",
+		"delete":				"^0.2.1",
+		"mocha":				"^2.2.5",
+		"mocha-tldr-reporter":	"^1.0.0",
+		"should":				"^7.0.4",
+		"concat-stream":		"^1.5.0"
 	},
 	"dependencies": {
-		"q":				"^1.4.1",
-		"ndjson":			"^1.4.1",
-		"select-stream":	"^0.1.0"
+		"q":					"^1.4.1",
+		"ndjson":				"^1.4.1",
+		"select-stream":		"^0.1.0"
 	},
 	"directories": {
 		"src":		"./",
@@ -53,6 +55,6 @@
 	},
 	"scripts": {
 		"build":	"build/index.sh",
-		"test":		"mocha --compilers coffee:coffee-script/register test/*"
+		"test":		"mocha --compilers coffee:coffee-script/register --reporter mocha-tldr-reporter test/index.coffee"
 	}
 }
