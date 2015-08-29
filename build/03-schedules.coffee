@@ -28,6 +28,7 @@ processSchedule = (schedules) ->
 		start = parseDate(data.start_date).valueOf()
 		end = parseDate(data.end_date).valueOf()
 		schedule = schedules[data.service_id] =
+			id:				parseInt data.service_id
 			start:			start
 			days: 			Math.round moment.duration(end - start).asDays()
 			available:		[]
