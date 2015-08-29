@@ -47,6 +47,9 @@ static.route({
 	stationToId: 9003176
 }).then(…);
 ```
+```
+
+**To get all elements, pass `'all'` as the `filter`.**
 
 
 

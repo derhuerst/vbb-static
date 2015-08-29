@@ -12,8 +12,14 @@ var base = path.join(__dirname, 'data');
 
 
 
+function allFilter () {
+	return true;
+}
+
 function createFilter (pattern) {
-	if (pattern && typeof pattern === 'object')   // field filter
+	if (pattern === 'all')
+		return allFilter;
+	else if (pattern && typeof pattern === 'object')   // field filter
 		return function (data) {
 			for (var key in pattern) {
 				if (pattern.hasOwnProperty(key) && pattern[key] !== data[key])
