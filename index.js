@@ -40,11 +40,12 @@ function createMethod (file) {
 		var reader = fs.createReadStream(path.join(base, file));
 		reader.on('error', function (err) {
 			filter.emit('error', err);
-		})
+		});
 		var parser = ndjson.parse()
 		parser.on('error', function () {
 			filter.emit('error', err);
-		})
+		});
+
 		reader.pipe(parser).pipe(filter);
 
 		if (promised) {
