@@ -23,7 +23,7 @@ filters =
 			name:			data.agency_name
 			url:			data.agency_url
 
-	'routes.csv': (data) ->
+	'lines.csv': (data) ->
 		if not data.route_short_name then return
 		this.queue
 			id:				parseInt data.route_id

@@ -21,7 +21,7 @@ tests = [
 		}]
 	}
 	{
-		method:			'routes'
+		method:			'lines'
 		filter:			1
 		result: [{
 			id:			1
@@ -62,7 +62,7 @@ tests = [
 		filter:			1
 		result: [{
 			id:			1
-			routeId:	1
+			lineId:	1
 			scheduleId:	'000511'
 			name:		'Flughafen Schönefeld Terminal (Airport)'
 			stations: [

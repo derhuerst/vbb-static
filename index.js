@@ -81,7 +81,7 @@ function createMethod (file) {
 module.exports = {
 
 	agencies:	createMethod('agencies.ndjson'),
-	routes:		createMethod('routes.ndjson'),
+	lines:		createMethod('lines.ndjson'),
 	stations:	createMethod('stations.ndjson'),
 	transfers:	createMethod('transfers.ndjson'),
 	trips:		createMethod('trips.ndjson'),
