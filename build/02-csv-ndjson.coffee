@@ -14,6 +14,15 @@ targetBase = path.join __dirname, '../data'
 parseAgency = (agency) ->
 	return agency.replace /[^a-zA-Z0-9]+$/, ''
 
+types =
+	'100':	'regional'
+	'102':	'regional'
+	'109':	'suburban'
+	'400':	'subway'
+	'700':	'bus'
+	'900':	'tram'
+	'1000':	'ferry'
+
 
 
 filters =
@@ -29,6 +38,7 @@ filters =
 			id:				parseInt data.route_id
 			name:			data.route_short_name
 			agencyId:		parseAgency data.agency_id
+			type:			types[data.route_type] || 'unknown'
 
 	'transfers.csv': (data) ->
 		this.queue
