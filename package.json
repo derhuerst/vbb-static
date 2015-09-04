@@ -13,7 +13,7 @@
 		"url": "git://github.com/derhuerst/vbb-static.git"
 	},
 	"bugs": "https://github.com/derhuerst/vbb-static/issues",
-	"version": "0.7.0",
+	"version": "0.8.0",
 	"main": "./index.js",
 	"keywords": [
 		"vbb",
