@@ -51,7 +51,6 @@ processTripStation = (lines, trips, stations) ->
 	return (data) ->
 		weight = lines[trips[parseInt data.trip_id]] or 1
 		weight *= (dropOffWeight[data.drop_off_type] or 0) + (dropOffWeight[data.pickup_type] or 0)
-		console.log stations[parseInt data.stop_id].name, data.drop_off_type, weight
 		stations[parseInt data.stop_id].weight += weight
 
 
