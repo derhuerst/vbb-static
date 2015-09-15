@@ -1,9 +1,66 @@
+oboe =			require 'oboe'
+Autocomplete =	require 'vbb-stations-autocomplete'
 path =			require 'path'
 fs =			require 'fs'
 moment =		require 'moment'
 Q =				require 'q'
 csv =			require 'csv-parse'
 ndjson =		require 'ndjson'
+
+
+
+
+
+downloadEntrances = () ->
+	deferred = Q.defer()
+	entrances = []
+
+	parser = oboe
+		url: [
+			'http://overpass.osm.rambler.ru/cgi'
+			'/interpreter?data='
+			'[out:json];'
+			'('
+			'node(around: 10000, 52.4964393, 13.3864079)["highway"="bus_stop"];'
+			'node(around: 10000, 52.4964393, 13.3864079)["railway"="tram_stop"];'
+			'node(around: 10000, 52.4964393, 13.3864079)["railway"="station"];'
+			'node(around: 10000, 52.4964393, 13.3864079)["public_transport"="stop_position"];'
+			');out;'
+		].join ''
+
+	parser.node '!.elements[*]', (node, path) ->
+		return unless node.tags
+		return unless node.tags.name
+		entrances.push
+			name:		node.tags.name
+			latitude:	node.lat
+			longitude:	node.lon
+
+	parser.done () ->
+		deferred.resolve entrances
+	return deferred.promise
+
+
+
+mapEntrances = (stations, entrances) ->
+	deferred = Q.defer()
+	autocomplete = Autocomplete 1
+
+	step = (i) ->
+		if i >= entrances.length then return deferred.resolve stations
+
+		autocomplete.suggest entrances[i].name
+		.then (results) ->
+			station = stations[results[0].id]
+			if station
+				station.entrances ?= []
+				station.entrances.push
+					latitude:	entrances[i].latitude
+					longitude:	entrances[i].longitude
+			step ++i
+
+	step 0
+	return deferred.promise
 
 
 
@@ -119,9 +176,8 @@ lines = []
 trips = []
 stations = {}
 
-console.log 'Merging stations.csv & trips-stations.csv into stations.ndjson:'
+console.log 'Merging stations.csv & trips-stations.csv:'
 
-# read & accumulate data
 readNdjson 'lines.ndjson', processLine lines
 .then () ->
 	return readNdjson 'trips.ndjson', processTrip trips
@@ -130,8 +186,15 @@ readNdjson 'lines.ndjson', processLine lines
 .then () ->
 	return readCsv 'trips-stations.csv', processTripStation lines, trips, stations
 
-# pass `stations` in
 .then () ->
+	console.log 'Done.'
+	console.log 'Downloading & merging entrances from Open Street Map:'
+	return downloadEntrances()
+.then (entrances) ->
+	return mapEntrances stations, entrances
+.then (stations) ->
+	console.log 'Done.'
+	console.log 'Writing into stations.ndjson:'
 	return stations
 
 # write data
