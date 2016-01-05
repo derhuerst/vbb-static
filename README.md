@@ -75,7 +75,7 @@ returns a [promise that will resolve](http://documentup.com/kriskowal/q/#tutoria
 ### `stations` dataset
 
 ```javascript
-static.station(9042101);
+static.stations(9042101);
 ```
 
 returns an [object stream](https://nodejs.org/api/stream.html#stream_object_mode) that will emit `data` once with
