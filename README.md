@@ -36,13 +36,13 @@ This will give you a static object with one method for each dataset. Each method
 **To filter by `id`, just pass the value.**
 
 ```javascript
-static.lines(1173).then(…);
+static.lines(true, 1173).then(…);
 ```
 
 **To filter by multiple fields, pass them in an object.**
 
 ```javascript
-static.transfer({
+static.transfers(true, {
 	stationFromId: 9003104,
 	stationToId: 9003176
 }).then(…);
