@@ -31,22 +31,22 @@
 		"javascript"
 	],
 	"devDependencies": {
-		"coffee-script":		"^1.9.3",
+		"coffee-script":		"^1.10.0",
 		"mkdir-p":				"^0.0.6",
 		"download-stream":		"^1.0.1",
 		"unzip2":				"^0.2.5",
-		"csv-parse":			"^1.0.0",
+		"csv-parse":			"^1.0.1",
 		"through":				"^2.3.8",
-		"moment":				"^2.10.6",
+		"moment":				"^2.11.1",
 		"delete":				"^0.2.1",
-		"mocha":				"^2.2.5",
+		"mocha":				"^2.3.4",
 		"mocha-tldr-reporter":	"^1.0.0",
-		"should":				"^7.0.4",
-		"concat-stream":		"^1.5.0"
+		"should":				"^7.1.1",
+		"concat-stream":		"^1.5.1"
 	},
 	"dependencies": {
 		"q":					"^1.4.1",
-		"ndjson":				"^1.4.1",
+		"ndjson":				"^1.4.3",
 		"select-stream":		"^0.1.0"
 	},
 	"directories": {
