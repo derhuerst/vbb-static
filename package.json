@@ -1,7 +1,7 @@
 {
 	"name": "vbb-static",
 	"description": "A JavaScript API for the Berlin & Brandenburg public transport service (VBB) GTFS data.",
-	"license": "MIT",
+	"license": "ISC",
 	"author": {
 		"name": "Jannis R",
 		"email": "mail@jannisr.de",
