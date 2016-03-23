@@ -1,10 +1,11 @@
 #!env coffee
 
-path =    require 'path'
-fs =      require 'fs'
-csv =     require 'csv-parse'
-through = require 'through'
-ndjson =  require 'ndjson'
+path =      require 'path'
+fs =        require 'fs'
+csv =       require 'csv-parse'
+through =   require 'through'
+ndjson =    require 'ndjson'
+waterfall = require 'promise.waterfall'
 
 
 
@@ -49,22 +50,34 @@ filters =
 
 
 
-console.log 'Converting CSV to newline-delimited JSON:'
+showError = (err) ->
+	console.error err.stack
+	process.exit err.code || 1
 
-for sourceFile, filter of filters
+module.exports = ->
 
-	targetFile = path.basename(sourceFile, '.csv') + '.ndjson'
-	console.log '-', sourceFile, '->', targetFile
+	console.log 'Converting CSV to newline-delimited JSON:'
 
-	parse = csv
-		columns:	true
-	parse.on 'error', (err) -> console.error err.stack
+	tasks = Object.keys(filters)
+	.map (sourceFile) -> -> new Promise (resolve, reject) ->
+		filter = filters[sourceFile]
 
-	stringify = ndjson.stringify()
-	stringify.on 'error', (err) -> console.error err.stack
+		targetFile = path.basename(sourceFile, '.csv') + '.ndjson'
+		console.log '-', sourceFile, '->', targetFile
 
-	fs.createReadStream path.join sourceBase, sourceFile
-	.pipe parse
-	.pipe through filter
-	.pipe stringify
-	.pipe fs.createWriteStream path.join targetBase, targetFile
+		parse = csv columns: true
+		parse.on 'error', showError
+
+		stringify = ndjson.stringify()
+		stringify.on 'error', showError
+
+		fs.createReadStream path.join sourceBase, sourceFile
+		.pipe parse
+		.pipe through filter
+		.pipe stringify
+		.pipe fs.createWriteStream path.join targetBase, targetFile
+		.on 'finish', resolve
+		.on 'error', reject
+
+	waterfall tasks
+	.catch showError
