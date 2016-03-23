@@ -80,21 +80,23 @@ showError = (err) ->
 	console.error err.stack
 	process.exit err.code || 1
 
-trips = {}
+module.exports = ->
 
-console.log 'Merging trips.csv & trips-stations.csv into trips.ndjson:'
+	trips = {}
 
-# read & accumulate data
-readCsv 'trips.csv', processTrip trips
-.then -> readCsv 'trips-stations.csv', processTripStation trips
+	console.log 'Merging trips.csv & trips-stations.csv into trips.ndjson:'
 
-# pass `trips` in
-.then -> trips
+	# read & accumulate data
+	readCsv 'trips.csv', processTrip trips
+	.then -> readCsv 'trips-stations.csv', processTripStation trips
 
-.then tripFilterStations
+	# pass `trips` in
+	.then -> trips
 
-# write data
-.then writeNdjson 'trips.ndjson'
-.catch showError
+	.then tripFilterStations
 
-.then -> console.log 'Done.'
+	# write data
+	.then writeNdjson 'trips.ndjson'
+	.catch showError
+
+	.then -> console.log 'Done.'

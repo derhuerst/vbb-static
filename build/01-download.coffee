@@ -1,9 +1,8 @@
-pFs =      require 'fs-promise'
-fs =       require 'fs'
 #!env coffee
 
 path =     require 'path'
-so =       require 'so'
+pFs =      require 'fs-promise'
+Download = require 'download'
 
 
 
@@ -22,19 +21,16 @@ paths =
 
 
 
-so(->
+module.exports = ->
 
-	yield pFs.mkdir base
+	pFs.mkdir base
 
-	console.log 'Downloading GTFS zip file.'
-	# todo: download promise API
+	.then -> new Promise (resolve, reject) ->
+		console.log 'Downloading & extracting GTFS zip file.'
+		new Download extract: true, mode: '755'
+			.get 'https://codeload.github.com/derhuerst/vbb-gtfs/zip/master'
+			.dest base
+			.run (err) -> if err then reject err else resolve()
 
-	console.log 'Extracting.'
-	# todo: unzip promise API
-
-	console.log 'Deleting zip file.'
-	pFs.unlink path.join base, 'gtfs.zip'
-
-)()
-.catch (err) -> console.error(err.stack)
-.then -> console.log 'Done'
+	.catch (err) -> console.error(err.stack)
+	.then -> console.log 'Done'

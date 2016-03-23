@@ -102,22 +102,24 @@ showError = (err) ->
 	console.error err.stack
 	process.exit err.code || 1
 
-lines = []
-trips = []
-stations = {}
+module.exports = ->
 
-console.log 'Merging stations.csv & trips-stations.csv:'
+	lines = []
+	trips = []
+	stations = {}
 
-readNdjson 'lines.ndjson', processLine lines
-.then -> readNdjson 'trips.ndjson', processTrip trips
-.then -> readCsv 'stations.csv', processStation stations
-.then -> readCsv 'trips-stations.csv', processTripStation lines, trips, stations
-.then ->
-	console.log 'Done.'
-	console.log 'Writing into stations.ndjson:'
-	return stations
+	console.log 'Merging stations.csv & trips-stations.csv:'
 
-# write data
-.then writeNdjson 'stations.ndjson'
-.catch showError
-.then -> console.log 'Done.'
+	readNdjson 'lines.ndjson', processLine lines
+	.then -> readNdjson 'trips.ndjson', processTrip trips
+	.then -> readCsv 'stations.csv', processStation stations
+	.then -> readCsv 'trips-stations.csv', processTripStation lines, trips, stations
+	.then ->
+		console.log 'Done.'
+		console.log 'Writing into stations.ndjson:'
+		return stations
+
+	# write data
+	.then writeNdjson 'stations.ndjson'
+	.catch showError
+	.then -> console.log 'Done.'
