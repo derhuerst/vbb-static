@@ -1,68 +1,9 @@
 #!env coffee
 
-oboe =			require 'oboe'
-Autocomplete =	require 'vbb-stations-autocomplete'
 path =			require 'path'
 fs =			require 'fs'
-moment =		require 'moment'
-Q =				require 'q'
 csv =			require 'csv-parse'
 ndjson =		require 'ndjson'
-
-
-
-
-
-downloadEntrances = () ->
-	deferred = Q.defer()
-	entrances = []
-
-	parser = oboe
-		url: [
-			'http://overpass.osm.rambler.ru/cgi'
-			'/interpreter?data='
-			'[out:json];'
-			'('
-			'node(around: 10000, 52.4964393, 13.3864079)["highway"="bus_stop"];'
-			'node(around: 10000, 52.4964393, 13.3864079)["railway"="tram_stop"];'
-			'node(around: 10000, 52.4964393, 13.3864079)["railway"="station"];'
-			'node(around: 10000, 52.4964393, 13.3864079)["public_transport"="stop_position"];'
-			');out;'
-		].join ''
-
-	parser.node '!.elements[*]', (node, path) ->
-		return unless node.tags
-		return unless node.tags.name
-		entrances.push
-			name:		node.tags.name
-			latitude:	node.lat
-			longitude:	node.lon
-
-	parser.done () ->
-		deferred.resolve entrances
-	return deferred.promise
-
-
-
-mapEntrances = (stations, entrances) ->
-	deferred = Q.defer()
-	autocomplete = Autocomplete 1
-
-	step = (i) ->
-		if i >= entrances.length then return deferred.resolve stations
-
-		autocomplete.suggest entrances[i].name
-		.then (results) ->
-			station = stations[results[0].id]
-			if station
-				station.entrances ?= []
-				station.entrances.push
-					latitude:	entrances[i].latitude
-					longitude:	entrances[i].longitude
-			step ++i
-
-	step 0
-	return deferred.promise
 
 
 
