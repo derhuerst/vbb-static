@@ -1,8 +1,10 @@
-path =			require 'path'
-fs =			require 'fs'
-csv =			require 'csv-parse'
-through =		require 'through'
-ndjson =		require 'ndjson'
+#!env coffee
+
+path =    require 'path'
+fs =      require 'fs'
+csv =     require 'csv-parse'
+through = require 'through'
+ndjson =  require 'ndjson'
 
 
 
@@ -11,8 +13,7 @@ ndjson =		require 'ndjson'
 sourceBase = path.join __dirname, '../data/csv'
 targetBase = path.join __dirname, '../data'
 
-parseAgency = (agency) ->
-	return agency.replace /[^a-zA-Z0-9]+$/, ''
+cleanAgency = (agency) -> agency.replace /[^a-zA-Z0-9]+$/, ''
 
 types =
 	'100':	'regional'
@@ -28,7 +29,7 @@ types =
 filters =
 	'agencies.csv': (data) ->
 		this.queue
-			id:				parseAgency data.agency_id
+			id:				cleanAgency data.agency_id
 			name:			data.agency_name
 			url:			data.agency_url
 
@@ -37,7 +38,7 @@ filters =
 		this.queue
 			id:				parseInt data.route_id
 			name:			data.route_short_name
-			agencyId:		parseAgency data.agency_id
+			agencyId:		cleanAgency data.agency_id
 			type:			types[data.route_type] || 'unknown'
 
 	'transfers.csv': (data) ->

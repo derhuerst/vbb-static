@@ -4,6 +4,7 @@ moment =		require 'moment'
 Q =				require 'q'
 csv =			require 'csv-parse'
 ndjson =		require 'ndjson'
+#!env coffee
 
 
 

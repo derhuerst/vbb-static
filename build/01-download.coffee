@@ -1,9 +1,9 @@
-Q =				require 'q'
-mkdir =			require 'mkdir-p'
-download =		require 'download-stream'
-unzip =			require 'unzip2'
-path =			require 'path'
-fs =			require 'fs'
+pFs =      require 'fs-promise'
+fs =       require 'fs'
+#!env coffee
+
+path =     require 'path'
+so =       require 'so'
 
 
 
@@ -22,24 +22,19 @@ paths =
 
 
 
-console.log 'Downloading & extracting GTFS zip file:'
+so(->
 
-Q.nfcall mkdir, base
-.done () ->
+	yield pFs.mkdir base
 
-	zip = unzip.Parse()
-	download 'https://codeload.github.com/derhuerst/vbb-gtfs/zip/master'
-	.pipe zip
+	console.log 'Downloading GTFS zip file.'
+	# todo: download promise API
 
-	zip.on 'entry', (entry) ->
-		name = path.basename entry.path
-		if entry.type != 'File' or not paths[name]
-			return entry.autodrain()
-		console.info '-', name, '->', paths[name]
-		entry.pipe fs.createWriteStream path.join base, paths[name]
+	console.log 'Extracting.'
+	# todo: unzip promise API
 
-	zip.on 'error', (err) ->
-		console.error err.stack
+	console.log 'Deleting zip file.'
+	pFs.unlink path.join base, 'gtfs.zip'
 
-	zip.on 'finish', () ->
-		console.info 'Done.'
+)()
+.catch (err) -> console.error(err.stack)
+.then -> console.log 'Done'

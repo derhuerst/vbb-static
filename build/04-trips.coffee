@@ -1,7 +1,8 @@
+#!env coffee
+
 path =			require 'path'
 fs =			require 'fs'
 moment =		require 'moment'
-Q =				require 'q'
 csv =			require 'csv-parse'
 ndjson =		require 'ndjson'
 
@@ -13,23 +14,21 @@ ndjson =		require 'ndjson'
 
 
 
-processTrip = (trips) ->
-	return (data) ->
-		trips[data.trip_id] =
-			id:				parseInt data.trip_id
-			lineId:			parseInt data.route_id
-			scheduleId:		data.service_id   # todo: use integers.
-			name:			data.trip_headsign
-			stations:		[]
+processTrip = (trips) -> (data) ->
+	trips[data.trip_id] =
+		id:				parseInt data.trip_id
+		lineId:			parseInt data.route_id
+		scheduleId:		data.service_id   # todo: use integers.
+		name:			data.trip_headsign
+		stations:		[]
 
 
 
-processTripStation = (trips) ->
-	return (data) ->
-		trips[data.trip_id].stations[parseInt data.stop_sequence] =
-			s:	parseInt data.stop_id
-			t:	moment.duration(data.departure_time).asMilliseconds()
-			# todo: check if `data.arrival_time` differs and store it
+processTripStation = (trips) -> (data) ->
+	trips[data.trip_id].stations[parseInt data.stop_sequence] =
+		s:	parseInt data.stop_id
+		t:	moment.duration(data.departure_time).asMilliseconds()
+		# todo: check if `data.arrival_time` differs and store it
 
 
 
@@ -43,36 +42,29 @@ tripFilterStations = (trips) ->
 
 
 
-readCsv = (file, handle) ->
-	task = Q.defer()
-
-	parse = fs.createReadStream path.join __dirname, '../data/csv', file
-	.pipe csv
-		columns:	true
-	parse.on 'error', (err) ->
+readCsv = (file, handle) -> new Promise (resolve, reject) ->
+	parser = csv columns: true
+	parser.on 'error', (err) ->
 		console.error err.stack   # todo: remove?
-		task.reject err
-	parse.on 'data', handle
-	parse.on 'end', task.resolve
+		reject err
+	parser.on 'data', handle
+	parser.on 'end', resolve
 
-	return task.promise
+	fs.createReadStream path.join __dirname, '../data/csv', file
+	.pipe parser
 
 
 
-writeNdjson = (file) ->
-	return (trips) ->
-		task = Q.defer()
-
+writeNdjson = (file) -> (trips) -> new Promise (resolve, reject) ->
 		stringify = ndjson.stringify()
 		stringify.on 'error', (err) ->
 			console.error err.stack   # todo: remove?
-			task.reject err
+			reject err
 
 		writeStream = fs.createWriteStream path.join __dirname, '../data', file
-
 		writeStream.on 'error', (err) ->
 			console.error err.stack   # todo: remove?
-			task.reject err
+			reject err
 		writeStream.on 'finish', task.resolve
 
 		stringify.pipe writeStream
@@ -80,11 +72,13 @@ writeNdjson = (file) ->
 			stringify.write trip
 		stringify.end()
 
-		return task.promise
 
 
 
 
+showError = (err) ->
+	console.error err.stack
+	process.exit err.code || 1
 
 trips = {}
 
@@ -92,19 +86,15 @@ console.log 'Merging trips.csv & trips-stations.csv into trips.ndjson:'
 
 # read & accumulate data
 readCsv 'trips.csv', processTrip trips
-.then () ->
-	return readCsv 'trips-stations.csv', processTripStation trips
+.then -> readCsv 'trips-stations.csv', processTripStation trips
 
 # pass `trips` in
-.then () ->
-	return trips
+.then -> trips
 
 .then tripFilterStations
 
 # write data
 .then writeNdjson 'trips.ndjson'
-.catch (err) ->
-	console.error err.stack
+.catch showError
 
-.then () ->
-	console.log 'Done.'
+.then -> console.log 'Done.'
