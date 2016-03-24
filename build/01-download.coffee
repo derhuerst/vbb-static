@@ -9,17 +9,6 @@ Download = require 'download'
 
 
 base = path.join __dirname, '../data/csv'
-paths =
-	'agency.txt':			'agencies.csv'
-	'routes.txt':			'lines.csv'
-	'trips.txt':			'trips.csv'
-	'stop_times.txt':		'trips-stations.csv'
-	'stops.txt':			'stations.csv'
-	'transfers.txt':		'transfers.csv'
-	'calendar.txt':			'calendar.csv'
-	'calendar_dates.txt':	'calendar-exceptions.csv'
-
-
 
 module.exports = ->
 
