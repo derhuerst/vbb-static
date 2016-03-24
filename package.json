@@ -54,7 +54,7 @@
 		"test":		"./test"
 	},
 	"scripts": {
-		"build":	"build/index.sh",
+		"build":	"coffee build/index.coffee",
 		"test":		"mocha --compilers coffee:coffee-script/register --reporter mocha-tldr-reporter test/index.coffee"
 	}
 }
