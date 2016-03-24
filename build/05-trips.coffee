@@ -65,7 +65,7 @@ writeNdjson = (file) -> (trips) -> new Promise (resolve, reject) ->
 		writeStream.on 'error', (err) ->
 			console.error err.stack   # todo: remove?
 			reject err
-		writeStream.on 'finish', task.resolve
+		writeStream.on 'finish', resolve
 
 		stringify.pipe writeStream
 		for id, trip of trips
