@@ -3,6 +3,7 @@
 *vbb-static* is a **collection of JSON datasets covering the [Berlin Brandenburg public transport service (VBB)](http://www.vbb.de/)**, processed from [open](http://daten.berlin.de/datensaetze/vbb-fahrplandaten-juni-2015-bis-dezember-2015) [GTFS](https://developers.google.com/transit/gtfs/) [data](https://github.com/derhuerst/vbb-gtfs).
 
 [![npm version](https://img.shields.io/npm/v/vbb-static.svg)](https://www.npmjs.com/package/vbb-static)
+[![build status](https://img.shields.io/travis/derhuerst/vbb-static.svg)](https://travis-ci.org/derhuerst/vbb-static)
 [![dependency status](https://img.shields.io/david/derhuerst/vbb-static.svg)](https://david-dm.org/derhuerst/vbb-static)
 [![dev dependency status](https://img.shields.io/david/dev/derhuerst/vbb-static.svg)](https://david-dm.org/derhuerst/vbb-static#info=devDependencies)
 
