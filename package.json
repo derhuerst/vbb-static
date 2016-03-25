@@ -17,7 +17,8 @@
 	"devDependencies": {},
 	"scripts": {
 		"build":         "build/index.coffee",
-		"test":          "mocha --compilers coffee:coffee-script/register --reporter mocha-tldr-reporter test.coffee",
-		"prepublish":    "npm test"
+		"test":          "nodeunit --reporter minimal test.coffee",
+		"test:watch":    "watchy -s -w . nodeunit --reporter minimal test.coffee",
+		"prepublish":    "npm run build && npm test"
 	}
 }

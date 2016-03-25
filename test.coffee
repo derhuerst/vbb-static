@@ -1,113 +1,94 @@
-mocha =		require 'mocha'
-assert =	require 'assert'
-concat =	require 'concat-stream'
+sink      = require 'stream-sink'
+isStream  = require 'is-stream'
+isPromise = require 'is-promise'
 
-vbbStatic =	require '../index.js'
-
-
+s = require './index.js'
 
 
 
-tests = [
-	{
-		method:			'agencies'
-		filter:			'VIB'
-		result: [{
-			id:			'VIB'
-			name:		'Verkehrsbetrieb Potsdam GmbH'
-			url:		'http://www.vip-potsdam.de'
-			# todo: This `offset` field is weird, because it doesn't appear in `data/agencies.ndjson`. One of the transform stream seems to add it.
-			offset:		0
-		}]
-	}
-	{
-		method:			'lines'
-		filter:			1
-		result: [{
-			id:			1
-			name:		'SXF2'
-			agencyId:	'ANG'
-			# todo: This `offset` field is weird, because it doesn't appear in `data/agencies.ndjson`. One of the transform stream seems to add it.
-			offset:		0
-		}]
-	}
-	{
-		method:			'stations'
-		filter:			5100071
-		result: [{
-			id:			5100071,
-			name:		'Zbaszynek'
-			latitude:	52.242504
-			longitude:	15.818087
-			weight:		25
-			# todo: This `offset` field is weird, because it doesn't appear in `data/agencies.ndjson`. One of the transform stream seems to add it.
-			offset:		0
-		}]
-	}
-	{
-		method:			'transfers'
-		filter:
-			stationFromId:	9003104
-			stationToId:	9003174
-		result: [{
-			stationFromId:	9003104
-			stationToId:	9003174
-			time:			180
-			# todo: This `offset` field is weird, because it doesn't appear in `data/agencies.ndjson`. One of the transform stream seems to add it.
-			offset:		0
-		}]
-	}
-	{
-		method:			'trips'
-		filter:			1
-		result: [{
-			id:			1
-			lineId:	1
-			scheduleId:	'000511'
-			name:		'Flughafen Schönefeld Terminal (Airport)'
-			stations: [
-				{ s: 9230999, t: 17100000 }
-				{ s: 9230400, t: 17460000 }
-				{ s: 9220019, t: 17940000 }
-				{ s: 9220070, t: 18360000 }
-				{ s: 9220114, t: 18660000 }
-				{ s: 9220001, t: 18780000 }
-				{ s: 9260024, t: 19920000 }
-			]
-			# todo: This `offset` field is weird, because it doesn't appear in `data/agencies.ndjson`. One of the transform stream seems to add it.
-			offset:		0
-		}]
-	}
-	{
-		method:			'schedules'
-		filter:			1
-		result: [{
-			id:			1
-			sunday: { default: true, exceptions: [] }
-			monday: { default: true, exceptions: [] }
-			tuesday: { default: true, exceptions: [] }
-			wednesday: { default: true, exceptions: [] }
-			thursday: { default: true, exceptions: [] }
-			friday: { default: true, exceptions: [] }
-			saturday: { default: true, exceptions: [] }
-			# todo: This `offset` field is weird, because it doesn't appear in `data/agencies.ndjson`. One of the transform stream seems to add it.
-			offset:		0
-		}]
-	}
-]
+module.exports =
+
+	'pass': (t) ->
+		t.expect 2
+		t.strictEqual s._.pass(), true
+		t.strictEqual s._.pass('foo'), true
+		t.done()
+
+	'filterById': (t) ->
+		predicate = s._.filterById 2
+		t.expect 6
+		t.strictEqual predicate(),          false
+		t.strictEqual predicate({}),        false
+		t.strictEqual predicate([2]),       false
+		t.strictEqual predicate({id:  1 }), false
+		t.strictEqual predicate({id: '2'}), false
+		t.strictEqual predicate({id:  2 }), true
+		t.done()
+
+	'filterByKeys':
+
+		'returns false for invalid data': (t) ->
+			predicate = s._.filterByKeys a: 'foo'
+			t.expect 3
+			t.strictEqual predicate(),    false
+			t.strictEqual predicate([2]), false
+			t.strictEqual predicate({}),  false
+			t.done()
+
+		'compares strictly': (t) ->
+			predicate = s._.filterByKeys a: '1'
+			t.expect 2
+			t.strictEqual predicate({a:  1 }), false
+			t.strictEqual predicate({a: '1'}), true
+			t.done()
+
+		'compares only *own* properties': (t) ->
+			predicate = s._.filterByKeys a: 'foo'
+			x = Object.create a: 'foo'
+			t.expect 1
+			t.strictEqual predicate(x), false
+			t.done()
+
+		'compares multiple keys': (t) ->
+			predicate = s._.filterByKeys a: 'foo', b: 'bar'
+			t.expect 4
+			t.strictEqual predicate({a:  'bar', b: 'bar'}), false
+			t.strictEqual predicate({a:  'bar', b: 'foo'}), false
+			t.strictEqual predicate({a:  'foo', b: 'foo'}), false
+			t.strictEqual predicate({a:  'foo', b: 'bar'}), true
+			t.done()
 
 
 
-for test in tests
+	"reader('agencies.ndjson')":
 
-	describe test.method, () ->
+		'without `promised` flag':
 
-		it 'should return a stream that is correctly filtered', () ->
-			vbbStatic[test.method] test.filter
-			.pipe concat { encoding: 'object' }, (result) ->
-				assert.deepEqual result, test.result
+			'returns a stream': (t) ->
+				read = s._.reader 'agencies.ndjson'
+				t.ok isStream read 'VBB'
+				t.done()
 
-		it 'should return a promise that resolves with the right data point', () ->
-			vbbStatic[test.method] true, test.filter
-			.then (result) ->
-				assert.deepEqual result, test.result
+			'filters correctly': (t) ->
+				read = s._.reader 'agencies.ndjson'
+				t.expect 2
+				sink = read('VBB').pipe sink objectMode: true
+				sink.on 'data', (data) ->
+					t.strictEqual data.length, 1
+					t.strictEqual data[0].id,  'VBB'
+					t.done()
+
+		'with `promised` flag':
+
+			'returns a promise': (t) ->
+				read = s._.reader 'agencies.ndjson'
+				t.ok isPromise read true, 'VBB'
+				t.done()
+
+			'filters correctly': (t) ->
+				read = s._.reader 'agencies.ndjson'
+				t.expect 2
+				read(true, 'VBB').then (data) ->
+					t.strictEqual data.length, 1
+					t.strictEqual data[0].id,  'VBB'
+					t.done()
