@@ -21,7 +21,7 @@ npm install vbb-static
 ## Usage
 
 ```javascript
-var static = require('vbb-static');
+const static = require('vbb-static')
 ```
 
 This will give you a static object with one method for each dataset. Each method has an optional `promised` switch and a required `filter`.
@@ -36,7 +36,7 @@ This will give you a static object with one method for each dataset. Each method
 **To filter by `id`, just pass the value.**
 
 ```javascript
-static.lines(true, 1173).then(…);
+static.lines(true, 1173).then(…)
 ```
 
 **To filter by multiple fields, pass them in an object.**
@@ -45,7 +45,7 @@ static.lines(true, 1173).then(…);
 static.transfers(true, {
 	stationFromId: 9003104,
 	stationToId: 9003176
-}).then(…);
+}).then(…)
 ```
 
 **To get all elements, pass `'all'` as the `filter`.**
