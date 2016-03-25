@@ -13,8 +13,25 @@
 	"repository":        "git://github.com/derhuerst/vbb-static.git",
 	"bugs":              "https://github.com/derhuerst/vbb-static/issues",
 	"license":           "ISC",
-	"dependencies": {},
-	"devDependencies": {},
+	"dependencies": {
+		"ndjson":            "^1.4.3",
+		"stream-filter":     "^1",
+		"stream-sink":       "^1.2"
+	},
+	"devDependencies": {
+		"coffee-script":     "^1.10",
+		"fs-promise":        "^0.5",
+		"download":          "^4.4.3",
+		"csv-parse":         "^1.0.2",
+		"through":           "^2.3.8",
+		"promise.waterfall": "^3.1.4",
+		"moment":            "^2.12.0",
+		"rimraf-promise":    "^2",
+		"nodeunit":          "^0.9.1",
+		"is-stream":         "^1.0.1",
+		"is-promise":        "^2.1",
+		"watchy":            "^0.6.6"
+	},
 	"scripts": {
 		"build":         "build/index.coffee",
 		"test":          "nodeunit --reporter minimal test.coffee",
