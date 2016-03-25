@@ -92,3 +92,32 @@ module.exports =
 					t.strictEqual data.length, 1
 					t.strictEqual data[0].id,  'VBB'
 					t.done()
+
+
+
+	'examples from readme':
+
+		'agencies': (t) -> s.agencies(true, 'VBB').then (data) ->
+			t.strictEqual data.length,  1
+			t.strictEqual data[0].id,   'VBB'
+			t.strictEqual data[0].name, 'Verkehrsverbund Brandenburg-Berlin'
+			t.done()
+
+		'lines': (t) -> s.lines(true, 248).then (data) ->
+			t.strictEqual data.length,      1
+			t.strictEqual data[0].id,       248
+			t.strictEqual data[0].name,     '100'
+			t.strictEqual data[0].type,     'bus'
+			t.done()
+
+		'stations': (t) -> s.stations(true, 9042101).then (data) ->
+			t.strictEqual data.length,      1
+			t.strictEqual data[0].id,       9042101
+			t.strictEqual data[0].name,     'U Spichernstr. (Berlin)'
+			t.done()
+
+		'trips': (t) -> s.trips(true, 98239).then (data) ->
+			t.strictEqual data.length,      1
+			t.strictEqual data[0].id,       98239
+			t.strictEqual data[0].lineId,   541 # U9
+			t.done()
