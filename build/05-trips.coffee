@@ -18,7 +18,7 @@ processTrip = (trips) -> (data) ->
 	trips[data.trip_id] =
 		id:				parseInt data.trip_id
 		lineId:			parseInt data.route_id
-		scheduleId:		data.service_id   # todo: use integers.
+		scheduleId:		parseInt data.service_id
 		name:			data.trip_headsign
 		stations:		[]
 

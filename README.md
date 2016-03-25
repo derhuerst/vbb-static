@@ -1,6 +1,6 @@
 # vbb-static
 
-*vbb-static* is a **collection of JSON datasets covering the [Berlin Brandenburg public transport service (VBB)](http://www.vbb.de/)**, processed from [open](http://daten.berlin.de/datensaetze/vbb-fahrplandaten-juni-2015-bis-dezember-2015) [GTFS](https://developers.google.com/transit/gtfs/) [data](https://github.com/derhuerst/vbb-gtfs).
+*vbb-static* is a **collection of datasets covering the [Berlin Brandenburg public transport service (VBB)](http://www.vbb.de/)**, computed from [open](http://daten.berlin.de/datensaetze/vbb-fahrplandaten-juni-2015-bis-dezember-2015) [GTFS](https://developers.google.com/transit/gtfs/) [data](https://github.com/derhuerst/vbb-gtfs).
 
 [![npm version](https://img.shields.io/npm/v/vbb-static.svg)](https://www.npmjs.com/package/vbb-static)
 [![build status](https://img.shields.io/travis/derhuerst/vbb-static.svg)](https://travis-ci.org/derhuerst/vbb-static)
@@ -11,11 +11,11 @@
 
 ## Installing
 
+*Warning:* This module contains `.ndjson` files with **a total size of roughly 130 megabytes of data**.
+
 ```shell
 npm install vbb-static
 ```
-
-*Warning:* This module contains `.ndjson` files with **a total size of roughly 130 megabytes of data**.
 
 
 
@@ -25,7 +25,7 @@ npm install vbb-static
 const static = require('vbb-static')
 ```
 
-This will give you a static object with one method for each dataset. Each method has an optional `promised` switch and a required `filter`.
+This will give you an object with **one method for each dataset**:
 
 - `agencies( [promised,] filter )`
 - `lines( [promised,] filter )`
@@ -55,9 +55,6 @@ static.transfers(true, {
 
 ## Examples
 
-
-### `agencies` dataset
-
 ```javascript
 static.agencies(true, 'VIB')
 ```
@@ -72,8 +69,7 @@ returns a [promise that will resolve](http://documentup.com/kriskowal/q/#tutoria
 }]
 ```
 
-
-### `stations` dataset
+----
 
 ```javascript
 static.stations(9042101);
