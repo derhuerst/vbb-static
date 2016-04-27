@@ -1,7 +1,7 @@
 {
 	"name":              "vbb-static",
 	"description":       "JavaScript API for VBB GTFS data.",
-	"version":           "0.11.0",
+	"version":           "0.12.0",
 	"main":              "index.js",
 	"files":             ["index.js", "data/*", "!data/csv", "vbb-logo.jpg"],
 	"keywords": [
