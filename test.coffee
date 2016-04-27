@@ -103,9 +103,9 @@ module.exports =
 			t.strictEqual data[0].name, 'Verkehrsverbund Brandenburg-Berlin'
 			t.done()
 
-		'lines': (t) -> s.lines(true, 243).then (data) ->
+		'lines': (t) -> s.lines(true, 245).then (data) ->
 			t.strictEqual data.length,      1
-			t.strictEqual data[0].id,       243
+			t.strictEqual data[0].id,       245
 			t.strictEqual data[0].name,     '100'
 			t.strictEqual data[0].type,     'bus'
 			t.done()
@@ -116,8 +116,8 @@ module.exports =
 			t.strictEqual data[0].name,     'U Spichernstr. (Berlin)'
 			t.done()
 
-		'trips': (t) -> s.trips(true, 80075).then (data) ->
+		'trips': (t) -> s.trips(true, 77336).then (data) ->
 			t.strictEqual data.length,      1
-			t.strictEqual data[0].id,       80075
-			t.strictEqual data[0].lineId,   544 # U9
+			t.strictEqual data[0].id,       77336
+			t.strictEqual data[0].lineId,   548 # U9
 			t.done()
