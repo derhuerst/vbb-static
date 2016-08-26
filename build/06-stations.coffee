@@ -5,6 +5,8 @@ fs =			require 'fs'
 csv =			require 'csv-parse'
 ndjson =		require 'ndjson'
 
+progress = require './progress'
+
 
 
 
@@ -21,13 +23,18 @@ typeWeight =
 	'tram':		.35
 	'ferry':	.6
 
-processLine = (lines) -> (data) -> lines[data.id] = typeWeight[data.type] or 0
+processLine = (lines) -> (data) ->
+	progress()
+	lines[data.id] = typeWeight[data.type] or 0
 
-processTrip = (trips) -> (data) -> trips[data.id] = data.lineId
+processTrip = (trips) -> (data) ->
+	progress()
+	trips[data.id] = data.lineId
 
 
 
 processStation = (stations) -> (data) ->
+	progress()
 	stations[data.stop_id] =
 		id:				parseInt data.stop_id
 		name:			data.stop_name
@@ -43,6 +50,7 @@ dropOffWeight =
 	'3':	3
 
 processTripStation = (lines, trips, stations) -> (data) ->
+	progress()
 	weight = lines[trips[parseInt data.trip_id]] or 1
 	weight *= (dropOffWeight[data.drop_off_type] or 0) + (dropOffWeight[data.pickup_type] or 0)
 	stations[parseInt data.stop_id].weight += weight

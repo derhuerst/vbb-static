@@ -6,6 +6,8 @@ moment = require 'moment'
 csv =    require 'csv-parse'
 ndjson = require 'ndjson'
 
+progress = require './progress'
+
 
 
 
@@ -24,6 +26,7 @@ daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 
 
 
 processSchedule = (schedules) -> (data) ->
+	progress()
 	start = parseDate(data.start_date).valueOf()
 	end = parseDate(data.end_date).valueOf()
 	schedule = schedules[data.service_id] =
@@ -37,6 +40,7 @@ processSchedule = (schedules) -> (data) ->
 
 
 processScheduleException = (schedules) -> (data) ->
+	progress()
 	schedule = schedules[data.service_id]
 	# todo: there are records with `data.service_id === 0`. what about them?
 	if not schedule or not schedule.start then return

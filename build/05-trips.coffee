@@ -6,6 +6,8 @@ moment =		require 'moment'
 csv =			require 'csv-parse'
 ndjson =		require 'ndjson'
 
+progress = require './progress'
+
 
 
 
@@ -15,6 +17,7 @@ ndjson =		require 'ndjson'
 
 
 processTrip = (trips) -> (data) ->
+	progress()
 	trips[data.trip_id] =
 		id:				parseInt data.trip_id
 		lineId:			parseInt data.route_id
@@ -25,6 +28,7 @@ processTrip = (trips) -> (data) ->
 
 
 processTripStation = (trips) -> (data) ->
+	progress()
 	trips[data.trip_id].stations[parseInt data.stop_sequence] =
 		s:	parseInt data.stop_id
 		t:	moment.duration(data.departure_time).asMilliseconds()
