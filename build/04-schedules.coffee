@@ -3,7 +3,7 @@
 path =   require 'path'
 fs =     require 'fs'
 moment = require 'moment'
-csv =    require 'csv-parse'
+csv = require 'csv-parser'
 ndjson = require 'ndjson'
 
 progress = require './progress'
@@ -87,7 +87,7 @@ computeDaysInSchedules = (schedules) ->
 
 
 readCsv = (file, handle) -> new Promise (resolve, reject) ->
-	parser = csv columns: true
+	parser = csv()
 	parser.on 'error', (err) ->
 		console.error err.stack   # todo: remove?
 		reject err

@@ -2,7 +2,7 @@
 
 path =      require 'path'
 fs =        require 'fs'
-csv =       require 'csv-parse'
+csv = require 'csv-parser'
 through =   require 'through'
 ndjson =    require 'ndjson'
 waterfall = require 'promise.waterfall'
@@ -65,7 +65,7 @@ module.exports = ->
 		targetFile = path.basename(sourceFile, '.csv') + '.ndjson'
 		console.log '-', sourceFile, '->', targetFile
 
-		parse = csv columns: true
+		parse = csv()
 		parse.on 'error', showError
 
 		stringify = ndjson.stringify()

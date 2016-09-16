@@ -22,7 +22,7 @@
 		"coffee-script":     "^1.10",
 		"fs-promise":        "^0.5",
 		"download":          "^4.4.3",
-		"csv-parse":         "^1.0.2",
+		"csv-parse": "^1.11",
 		"through":           "^2.3.8",
 		"promise.waterfall": "^3.1.4",
 		"moment":            "^2.12.0",
