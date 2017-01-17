@@ -1,6 +1,10 @@
 # vbb-static
 
-*vbb-static* is a **collection of datasets covering the [Berlin Brandenburg public transport service (VBB)](http://www.vbb.de/)**, computed from [open](http://daten.berlin.de/datensaetze/vbb-fahrplandaten-juni-2015-bis-dezember-2015) [GTFS](https://developers.google.com/transit/gtfs/) [data](https://github.com/derhuerst/vbb-gtfs).
+**Deprecated. Please use [`vbb-stations`](https://github.com/derhuerst/vbb-stations), [`vbb-lines`](https://github.com/derhuerst/vbb-lines), [`vbb-lines-at`](https://github.com/derhuerst/vbb-lines-at), [`vbb-trips`](https://github.com/derhuerst/vbb-trips), [`vbb-shapes`](https://github.com/derhuerst/vbb-shapes) and [`vbb-translate-ids`](https://github.com/derhuerst/vbb-translate-ids).**
+
+---
+
+*vbb-static* ~is~ was a **collection of datasets covering the [Berlin Brandenburg public transport service (VBB)](http://www.vbb.de/)**, computed from [open](http://daten.berlin.de/datensaetze/vbb-fahrplandaten-juni-2015-bis-dezember-2015) [GTFS](https://developers.google.com/transit/gtfs/) [data](https://github.com/derhuerst/vbb-gtfs).
 
 [![npm version](https://img.shields.io/npm/v/vbb-static.svg)](https://www.npmjs.com/package/vbb-static)
 [![build status](https://img.shields.io/travis/derhuerst/vbb-static.svg)](https://travis-ci.org/derhuerst/vbb-static)
